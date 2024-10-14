@@ -1,0 +1,36 @@
+{
+  "include": [
+    "~/.config/waybar/modules-builtin.jsonc",
+    "~/.config/waybar/modules-custom.jsonc"
+  ],
+  "layer": "top",
+  "position": "top",
+  //  "height": 20,
+  //  "spacing": 4,
+  "modules-center": [
+    "custom/left-arrow-leading",
+    "cpu",
+    "custom/left-arrow-trailing"
+  ]
+  //  "modules-center": [
+  //    "sway/window"
+  //  ]
+  //  "modules-right": [
+  //    "mpd",
+  //    "idle_inhibitor",
+  //    "pulseaudio",
+  //    "network",
+  //    "power-profiles-daemon",
+  //    "cpu",
+  //    "memory",
+  //    "temperature",
+  //    "backlight",
+  //    "keyboard-state",
+  //    "sway/language",
+  //    "battery",
+  //    "battery#bat2",
+  //    "clock",
+  //    "tray",
+  //    "custom/power"
+  //  ]
+}

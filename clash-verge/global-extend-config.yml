@@ -1,0 +1,114 @@
+#>>> Genernal Configuration Start >>>
+# Do not use default port for security concern
+bind-address: '*'
+mixed-port: 37897
+redir-port: 37898
+tproxy-port: 37899
+external-controller: 0.0.0.0:9090
+log-level: silent
+allow-lan: false
+ipv6: false
+unified-delay: true
+tcp-concurrent: true
+keep-alive-interval: 300
+global-client-fingerprint: random
+global-ua: clash.meta
+profile:
+  store-selected: true
+  store-fake-ip: true
+#<<< Genernal Configuration End <<<
+
+#>>> GEO Configuration Start >>>
+geodata-loader: standard
+geo-auto-update: true
+geo-update-interval: 168
+geox-url:
+  geoip: https://hub.gitmirror.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
+  geosite: https://hub.gitmirror.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
+  mmdb: https://hub.gitmirror.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb
+  asn: https://hub.gitmirror.com/https://github.com/xishang0128/geoip/releases/download/latest/GeoLite2-ASN.mmdb
+#<<< GEO Configuration End <<<
+
+#>>> DNS Configuration Start >>>
+# 208.67.220.220 opendns
+# 9.9.9.9 quad9
+# 1.1.1.1 cloudflare
+# 223.5.5.5 alidns
+dns:
+  enable: true
+  prefer-h3: false
+  ipv6: false
+  use-hosts: true
+  use-system-hosts: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 100.64.0.1/10
+  fake-ip-filter:
+    - geosite:private
+    - geosite:cn
+    - +.rustdesk.com
+  default-nameserver:
+    - 223.5.5.5
+    - 9.9.9.9
+  nameserver-policy:
+    geosite:private: system
+    geosite:cn: https://223.5.5.5/dns-query#skip-cert-verify=true
+    +.rustdesk: https://223.5.5.5/dns-query#skip-cert-verify=true
+  proxy-server-nameserver:
+    - https://9.9.9.9/dns-query#skip-cert-verify=true
+  direct-nameserver:
+    - system
+  nameserver:
+    - https://223.5.5.5/dns-query#skip-cert-verify=true
+  fallback:
+    - https://9.9.9.9/dns-query#skip-cert-verify=true
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+#<<< DNS Configuration End <<<
+
+#>>> Domain Sniffing Configuration Start >>>
+sniffer:
+  enable: true
+  sniff:
+    HTTP:
+      ports: [80]
+    TLS:
+      ports: [443]
+    QUIC:
+      ports: [443]
+  skip-domain:
+    - +.lan
+    - +.local
+    - +.localhost
+#<<< Domain Sniffing Configuration End <<<
+
+#>>> TUN/TAP Configuration Start >>>
+tun:
+  enable: true
+  stack: mixed
+  device: meta0
+  auto-route: true
+  auto-redirect: false
+  auto-detect-interface: true
+  strict-route: true
+  # set auto-redirect to false to enable it
+  # uncomment to bypass local DNS nameserver
+  route-exclude-address:
+    # - 0.0.0.0/8
+    # - 10.0.0.0/8
+    # - 127.0.0.0/8
+    # - 169.254.0.0/16
+    # - 172.16.0.0/12
+    # - 192.0.0.0/24
+    # - 192.0.2.0/24
+    # - 192.88.99.0/24
+    # - 192.168.0.0/16
+    # - 198.18.0.0/15
+    # - 198.51.100.0/24
+    # - 203.0.113.0/24
+    # - 224.0.0.0/3
+    - 209.250.254.15/32
+  dns-hijack:
+    - any:53
+  mtu: 1500
+#<<< TUN/TAP Configuration End <<<

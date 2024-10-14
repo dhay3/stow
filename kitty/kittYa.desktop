@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=kittYa
+GenericName=Terminal emulator
+Comment=Fast, feature-rich, GPU based terminal
+TryExec=kitty
+StartupNotify=true
+Exec=kitty --start-as=minimized -T kittYa --class kittYa -1
+Icon=Terminal
+Categories=System;TerminalEmulator;

@@ -1,0 +1,284 @@
+# Do not use that configuration as an extend config or extend script when a profile has been
+# selected that the profile's subscription url is in the $.proxy-provider.url list. If so the proxy
+# nodes will be duplicated in proxies panel in Clash Verge Rev, Create a new local profile which
+# contains this configuration and selected it. Or add a blank local profile to avoid it
+#
+# meta https://wiki.metacubex.one/config/
+# emoji wiki https://emojis.wiki
+# ISO 3166 https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+
+
+#>>> Yaml Aliases Start >>>
+gneral-options:
+  healthCheck: &healthCheck { url: http://www.gstatic.com/generate_204, lazy: true, interval: 600, timeout: 5000 }
+
+proxy-providers-options:
+  proxyProvidersCommon: &proxyProvidersCommon
+    type: http
+    interval: 3600
+    health-check:
+      enable: true
+      <<: *healthCheck
+
+proxy-groups-options:
+  proxyGroupsCommon: &proxyGroupsCommon
+    <<: *healthCheck
+    max-failed-times: 3
+  proxyGroupsInclude: &proxyGroupsInclude
+    include-all: true
+    #include-all-proxies: false
+    #include-all-providers: false
+    <<: *proxyGroupsCommon
+  proxyGroupsUse: &proxyGroupsUse
+    use:
+      - sub1
+    <<: *proxyGroupsCommon
+  proxyGroup: &proxyGroup { proxies: [🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN] }
+  proxyGroupCombined: &proxyGroupCombined { proxies: [🌐 DIRECT,🚫 REJECT,🫴 MANUAL,🧅 TOR,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 Fusion] }
+
+rule-providers-options:
+  ruleProvidersCommon: &ruleProvidersCommon { type: http, format: yaml, interval: 10368000 }
+#<<< Yaml Aliases End <<<
+
+#>>> Genernal Configuration Start >>>
+# Do not use default port for security concern
+bind-address: '*'
+mixed-port: 37897
+redir-port: 37898
+tproxy-port: 37899
+external-controller: 0.0.0.0:9090
+log-level: silent
+allow-lan: false
+ipv6: false
+unified-delay: true
+tcp-concurrent: true
+keep-alive-interval: 300
+global-client-fingerprint: random
+global-ua: clash.meta
+profile:
+  store-selected: true
+  store-fake-ip: true
+#<<< Genernal Configuration End <<<
+
+#>>> GEO Configuration Start >>>
+geodata-loader: standard
+geo-auto-update: true
+geo-update-interval: 168
+geox-url:
+  geoip: https://hub.gitmirror.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
+  geosite: https://hub.gitmirror.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
+  mmdb: https://hub.gitmirror.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb
+  asn: https://hub.gitmirror.com/https://github.com/xishang0128/geoip/releases/download/latest/GeoLite2-ASN.mmdb
+#<<< GEO Configuration End <<<
+
+#>>> DNS Configuration Start >>>
+# 208.67.220.220 opendns
+# 9.9.9.9 quad9
+# 1.1.1.1 cloudflare
+# 223.5.5.5 alidns
+dns:
+  enable: true
+  prefer-h3: false
+  ipv6: false
+  use-hosts: true
+  use-system-hosts: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 100.64.0.1/10
+  fake-ip-filter:
+    - geosite:private
+    - geosite:cn
+    - +.rustdesk.com
+  default-nameserver:
+    - 223.5.5.5
+    - 9.9.9.9
+  nameserver-policy:
+    geosite:private: system
+    geosite:cn: https://223.5.5.5/dns-query#skip-cert-verify=true
+    +.rustdesk: https://223.5.5.5/dns-query#skip-cert-verify=true
+  proxy-server-nameserver:
+    - https://9.9.9.9/dns-query#skip-cert-verify=true
+  direct-nameserver:
+    - system
+  nameserver:
+    - https://223.5.5.5/dns-query#skip-cert-verify=true
+  fallback:
+    - https://9.9.9.9/dns-query#skip-cert-verify=true
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+#<<< DNS Configuration End <<<
+
+#>>> Domain Sniffing Configuration Start >>>
+sniffer:
+  enable: true
+  sniff:
+    HTTP:
+      ports: [80]
+    TLS:
+      ports: [443]
+    QUIC:
+      ports: [443]
+  skip-domain:
+    - +.lan
+    - +.local
+    - +.localhost
+#<<< Domain Sniffing Configuration End <<<
+
+#>>> TUN/TAP Configuration Start >>>
+tun:
+  enable: true
+  stack: mixed
+  device: meta0
+  auto-route: true
+  auto-redirect: false
+  auto-detect-interface: true
+  strict-route: true
+  # set auto-redirect to false to enable it
+  # uncomment to bypass local DNS nameserver
+  route-exclude-address:
+    # - 0.0.0.0/8
+    # - 10.0.0.0/8
+    # - 127.0.0.0/8
+    # - 169.254.0.0/16
+    # - 172.16.0.0/12
+    # - 192.0.0.0/24
+    # - 192.0.2.0/24
+    # - 192.88.99.0/24
+    # - 192.168.0.0/16
+    # - 198.18.0.0/15
+    # - 198.51.100.0/24
+    # - 203.0.113.0/24
+    # - 224.0.0.0/3
+    - 209.250.254.15/32
+  dns-hijack:
+    - any:53
+  mtu: 1500
+#<<< TUN/TAP Configuration End <<<
+
+#>>> Proxy Providers Configuration Start >>>
+# Replace url with your subscription
+proxy-providers:
+  sub1:
+    <<: *proxyProvidersCommon
+    url: |
+      https://sub1.example.org
+    path: ./proxy_providers/sub1.yaml
+    proxy: 🇯🇵 JP
+#<<< Proxy Providers Configuration End <<<
+
+#>>> Proxies Configuration Start >>>
+# TUN must be enabled when use the TOR proxy
+proxies: [ { name: 🧅 TOR, type: socks5, server: 127.0.0.1, port: 9050, udp: true, ip-version: ipv4 } ]
+#<<< Proxies Configuration End <<<
+
+#>>> Proxy Groups(Policy) Configuration Start >>>
+proxy-groups:
+  - { name: 🌐 DIRECT, type: select, proxies: [ DIRECT ] }
+  - { name: 🚫 REJECT, type: select, proxies: [ REJECT ] }
+  - { name: 🇦🇷 AR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇦🇷|阿根廷|argentina }
+  - { name: 🇦🇺 AU,<<: *proxyGroupsInclude, type: select, filter: (?i)🇦🇺|澳大利亚|澳大利亞|australia }
+  - { name: 🇧🇷 BR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇧🇷|巴西|brazil }
+  - { name: 🇨🇦 CA,<<: *proxyGroupsInclude, type: select, filter: (?i)🇨🇦|加拿大|canada }
+  - { name: 🇩🇪 DE,<<: *proxyGroupsInclude, type: select, filter: (?i)🇩🇪|德国|德國|柏林|慕尼黑|germany }
+  - { name: 🇪🇬 EG,<<: *proxyGroupsInclude, type: select, filter: (?i)🇪🇬|埃及|egypt }
+  - { name: 🇫🇷 FR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇫🇷|法国|法國|福兰克|福蘭克|french }
+  - { name: 🇭🇰 HK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇭🇰|香港|hongkong }
+  - { name: 🇮🇩 ID,<<: *proxyGroupsInclude, type: select, filter: (?i)🇮🇩|印尼|indonesia }
+  - { name: 🇮🇳 IN,<<: *proxyGroupsInclude, type: select, filter: (?i)🇮🇳|印度|india }
+  - { name: 🇯🇵 JP,<<: *proxyGroupsInclude, type: select, filter: (?i)🇯🇵|日本|japan }
+  - { name: 🇰🇵 KP,<<: *proxyGroupsInclude, type: select, filter: (?i)🇰🇵|朝鲜|朝鮮 }
+  - { name: 🇰🇷 KR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇰🇷|韩国|韓國 }
+  - { name: 🇲🇴 MA,<<: *proxyGroupsInclude, type: select, filter: (?i)🇲🇴|澳门|澳門|maco }
+  - { name: 🇲🇽 MX,<<: *proxyGroupsInclude, type: select, filter: (?i)🇲🇽|墨西哥|mexico }
+  - { name: 🇲🇾 MY,<<: *proxyGroupsInclude, type: select, filter: (?i)🇲🇾|马来西亚|馬來西亞|malaysia }
+  - { name: 🇳🇬 NG,<<: *proxyGroupsInclude, type: select, filter: (?i)🇳🇬|尼日利亚|nigeria }
+  - { name: 🇳🇱 NL,<<: *proxyGroupsInclude, type: select, filter: (?i)🇳🇱|荷兰|荷蘭|netherlands }
+  - { name: 🇳🇿 NZ,<<: *proxyGroupsInclude, type: select, filter: (?i)🇳🇿|新西兰|新西蘭|zeeland }
+  - { name: 🇵🇭 PH,<<: *proxyGroupsInclude, type: select, filter: (?i)🇵🇭|菲律宾|菲律賓|philippines }
+  - { name: 🇵🇰 PK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇵🇰|巴基斯坦|pakistan }
+  - { name: 🇷🇺 RU,<<: *proxyGroupsInclude, type: select, filter: (?i)🇷🇺|俄罗斯|俄羅斯|russia }
+  - { name: 🇸🇦 SA,<<: *proxyGroupsInclude, type: select, filter: (?i)🇸🇦|沙特|arabia }
+  - { name: 🇸🇬 SG,<<: *proxyGroupsInclude, type: select, filter: (?i)🇸🇬|新加坡|singapore }
+  - { name: 🇹🇭 TH,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇭|泰国|泰國|Thailand }
+  - { name: 🇹🇷 TR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇷|土耳其|turkey }
+  - { name: 🇹🇼 TW,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇼|台湾|臺灣|taiwan }
+  - { name: 🇺🇦 UA,<<: *proxyGroupsInclude, type: select, filter: (?i)🇺🇦|乌克兰|烏克蘭|ukrainian }
+  - { name: 🇬🇧 UK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇬🇧|英|英國|england|kingdom|britsh }
+  - { name: 🇺🇸 US,<<: *proxyGroupsInclude, type: select, filter: (?i)🇺🇸|美国|美國|西雅图|西雅圖|洛杉矶|洛杉磯|艾斯本|america|states|seattle|angeles|ashburn }
+  - { name: 🇻🇳 VN,<<: *proxyGroupsInclude, type: select, filter: (?i)🇻🇳|越南|vietnam }
+  - { name: 🏳️‍🌈 Fusion,<<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
+  - { name: 🫴 MANUAL, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 Fusion] }
+  - { name: 🚘 Auto, type: url-test, tolerance: 100, max-failed-times: 3, <<: *proxyGroup }
+  - { name: 🔙 Fallback, type: fallback, url: https://www.gstatic.com/generate_204, max-failed-times: 3, <<: *proxyGroup }
+  - { name: 🔊 ADS, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🫴 MANUAL] }
+  - { name: 🤖 AI, type: select, <<: *proxyGroupCombined }
+  - { name: 🍎 Apple, type: select, <<: *proxyGroupCombined }
+  - { name: 🇬 Google, type: select, <<: *proxyGroupCombined }
+  - { name: 🧪 YouTube, type: select, <<: *proxyGroupCombined }
+  - { name: 🥅 Netflix, type: select, <<: *proxyGroupCombined }
+  - { name: 🐭 Disney, type: select, <<: *proxyGroupCombined }
+  - { name: 👌 HBO, type: select, <<: *proxyGroupCombined }
+  - { name: 🧙🏿‍♀️ Twitch, type: select, <<: *proxyGroupCombined }
+  - { name: 🐦 Twitter, type: select, <<: *proxyGroupCombined }
+  - { name: 📲 Telegram, type: select, <<: *proxyGroupCombined }
+  - { name: 🚂 Steam, type: select, <<: *proxyGroupCombined }
+  - { name: 🪟 Microsoft, type: select, <<: *proxyGroupCombined }
+  - { name: 📈 IPinfo, type: select, <<: *proxyGroupCombined }
+  - { name: 👂 Spotify, type: select, <<: *proxyGroupCombined }
+  - { name: 🀄 Manchuria, type: select, <<: *proxyGroupCombined }
+  - { name: 🪜 Proxy, type: select, <<: *proxyGroupCombined }
+  - { name: 🐟 Leakage, type: select, <<: *proxyGroupCombined }
+#<<< Proxy Groups(Policy) Configuration End <<<
+
+#>>> Rule Providers Configuration Start >>>
+# https://github.com/Loyalsoldier/clash-rules
+# https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash
+#rule-providers:
+#  claude:
+#    <<: *ruleProvidersCommon
+#    behavior: domain
+#    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Claude/Claude.yaml
+#    path: ./ruleset/Claude.yaml
+#<<< Rule Providers Configuration End <<<
+
+#>>> Rules Configuration End >>>
+rules:
+  - GEOIP,PRIVATE,🌐 DIRECT,no-resolve
+  - GEOIP,CN,🌐 DIRECT,no-resolve
+  - IP-CIDR,9.9.9.9/32,🌐 DIRECT,no-resolve
+  - GEOSITE,category-ads-all,🔊 ADS
+  - GEOSITE,private,🌐 DIRECT
+  - DOMAIN-SUFFIX,linux.do,🌐 DIRECT
+  - DOMAIN-SUFFIX,rustdesk.com,🌐 DIRECT
+  - PROCESS-PATH-REGEX,.*rustdesk,🌐 DIRECT
+  - DOMAIN,fast.com,📈 IPinfo
+  - DOMAIN,check.torproject.org,📈 IPinfo
+  - DOMAIN-SUFFIX,myip.la,📈 IPinfo
+  - DOMAIN-SUFFIX,ipip.net,📈 IPinfo
+  - DOMAIN-SUFFIX,ipinfo.io,📈 IPinfo
+  - GEOSITE,speedtest,📈 IPinfo
+  - GEOSITE,google,🇬 Google
+  - GEOSITE,youtube,🧪 YouTube
+  - GEOSITE,netflix,🥅 Netflix
+  - GEOSITE,disney,🐭 Disney
+  - GEOSITE,hbo,👌 HBO
+  - GEOSITE,openai,🤖 AI
+  - GEOSITE,anthropic,🤖 AI
+  - GEOSITE,twitch,🧙🏿‍♀️ Twitch
+  - GEOSITE,twitter,🐦 Twitter
+  - GEOSITE,telegram,📲 Telegram
+  - GEOSITE,spotify,👂 Spotify
+  - GEOSITE,microsoft@cn,🌐 DIRECT
+  - GEOSITE,microsoft,🪟 Microsoft
+  - GEOSITE,apple@cn,🌐 DIRECT
+  - GEOSITE,apple,🍎 Apple
+  - GEOSITE,steam@cn,🌐 DIRECT
+  - GEOSITE,steam,🚂 Steam
+  - GEOSITE,bilibili,🀄 Manchuria
+  - GEOSITE,zhihu,🀄 Manchuria
+  - GEOSITE,douban,🀄 Manchuria
+  - GEOSITE,smzdm,🀄 Manchuria
+  - GEOSITE,cn,🌐 DIRECT
+  - GEOSITE,geolocation-!cn,🪜 Proxy
+  - MATCH,🐟 Leakage
+#<<< Rules Configuration End <<<

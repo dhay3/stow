@@ -1,0 +1,20 @@
+mode: rule
+log-level: info
+dns:
+	default-nameserver:
+		- 223.5.5.5
+		- 9.9.9.9
+		- system
+	nameserver:
+		- https://223.5.5.5/dns-query
+	skip-cert-verify: true
+	fake-ip-filter:
+		- '+.lan'
+		- '+.local'
+		- '+.localhost'
+		- '+.home'
+		- '+.rustdesk.com'
+proxy-providers:
+	XiongMao:
+    url: "sub.example.org"
+    interval: 3600
