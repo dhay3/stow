@@ -10,7 +10,7 @@
 
 #>>> Yaml Aliases Start >>>
 gneral-options:
-  healthCheck: &healthCheck { url: http://www.gstatic.com/generate_204, lazy: true, interval: 600, timeout: 5000 }
+  healthCheck: &healthCheck { url: http://www.gstatic.com/generate_204, lazy: true, interval: 600, timeout: 3000 }
 
 proxy-providers-options:
   proxyProvidersCommon: &proxyProvidersCommon
@@ -34,7 +34,7 @@ proxy-groups-options:
       - sub1
     <<: *proxyGroupsCommon
   proxyGroup: &proxyGroup { proxies: [🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN] }
-  proxyGroupCombined: &proxyGroupCombined { proxies: [🌐 DIRECT,🚫 REJECT,🫴 MANUAL,🧅 TOR,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 Fusion] }
+  proxyGroupCombined: &proxyGroupCombined { proxies: [🌐 DIRECT,🚫 REJECT,🫴 MANUAL,🧅 TOR,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 FF] }
 
 rule-providers-options:
   ruleProvidersCommon: &ruleProvidersCommon { type: http, format: yaml, interval: 10368000 }
@@ -94,7 +94,7 @@ dns:
   nameserver-policy:
     geosite:private: system
     geosite:cn: https://223.5.5.5/dns-query#skip-cert-verify=true
-    +.rustdesk: https://223.5.5.5/dns-query#skip-cert-verify=true
+    +.rustdesk.com: https://223.5.5.5/dns-query#skip-cert-verify=true
   proxy-server-nameserver:
     - https://9.9.9.9/dns-query#skip-cert-verify=true
   direct-nameserver:
@@ -160,8 +160,7 @@ tun:
 proxy-providers:
   sub1:
     <<: *proxyProvidersCommon
-    url: |
-      https://sub1.example.org
+    url: https://example.org/sub1
     path: ./proxy_providers/sub1.yaml
     proxy: 🇯🇵 JP
 #<<< Proxy Providers Configuration End <<<
@@ -206,10 +205,11 @@ proxy-groups:
   - { name: 🇬🇧 UK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇬🇧|英|英國|england|kingdom|britsh }
   - { name: 🇺🇸 US,<<: *proxyGroupsInclude, type: select, filter: (?i)🇺🇸|美国|美國|西雅图|西雅圖|洛杉矶|洛杉磯|艾斯本|america|states|seattle|angeles|ashburn }
   - { name: 🇻🇳 VN,<<: *proxyGroupsInclude, type: select, filter: (?i)🇻🇳|越南|vietnam }
-  - { name: 🏳️‍🌈 Fusion,<<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
-  - { name: 🫴 MANUAL, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 Fusion] }
-  - { name: 🚘 Auto, type: url-test, tolerance: 100, max-failed-times: 3, <<: *proxyGroup }
-  - { name: 🔙 Fallback, type: fallback, url: https://www.gstatic.com/generate_204, max-failed-times: 3, <<: *proxyGroup }
+  - { name: 🏳️‍🌈 FF,<<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
+
+  - { name: 🫴 MANUAL, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 FF] }
+  - { name: 🚘 Auto, type: url-test, url: https://www.gstatic.com/generate_204, lazy: true, interval: 3600, timeout: 1000, tolerance: 30, max-failed-times: 3, <<: *proxyGroup }
+  - { name: 🔙 Fallback, type: fallback, url: https://www.gstatic.com/generate_204, lazy: true, interval: 3600, timeout: 3000, max-failed-times: 3, <<: *proxyGroup }
   - { name: 🔊 ADS, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🫴 MANUAL] }
   - { name: 🤖 AI, type: select, <<: *proxyGroupCombined }
   - { name: 🍎 Apple, type: select, <<: *proxyGroupCombined }
