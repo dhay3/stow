@@ -1,0 +1,13 @@
+location=2
+show=drun
+prompt=search
+no_actions=true
+allow_images=true
+hide_scroll=true
+insensitive=true
+dynamic_lines=true
+
+drun-print_command=false
+drun-display_generic=false
+drun-disable_prime=false
+drun-print_desktop_file=false
