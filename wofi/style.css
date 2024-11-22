@@ -21,7 +21,7 @@ window {
 
 #input {
   margin: 8px;
-  border: 1 solid transparent;
+  border: 1px solid transparent;
   border-radius: 0.4rem;
   background-color: #0F0F12;
   animation: fadeIn 0.5s ease-in-out both;
@@ -67,5 +67,5 @@ window {
 
 #text:selected {
   font-weight: normal;
-  background-color: none;
+  background-color: transparent;
 }
