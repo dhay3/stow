@@ -57,7 +57,7 @@ global-client-fingerprint: random
 global-ua: clash.meta
 profile:
   store-selected: true
-  store-fake-ip: true
+  store-fake-ip: false
 #<<< Genernal Configuration End <<<
 
 #>>> GEO Configuration Start >>>
