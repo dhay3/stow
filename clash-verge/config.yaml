@@ -151,7 +151,7 @@ tun:
     # - 203.0.113.0/24
     # - 224.0.0.0/3
     # bypass dns for troubleshooting when tun is enabled
-    - 119.29.29.29/32
+    - 1.1.1.1/32
     # bypass rustdesk
     - 209.250.254.15/32
   dns-hijack:
