@@ -34,6 +34,7 @@ geox-url:
 # 9.9.9.9 quad9
 # 1.1.1.1 cloudflare
 # 223.5.5.5 alidns
+# 119.29.29.29 tencent
 dns:
   enable: true
   prefer-h3: false
@@ -52,7 +53,7 @@ dns:
   nameserver-policy:
     geosite:private: system
     geosite:cn: https://223.5.5.5/dns-query#skip-cert-verify=true
-    +.rustdesk: https://223.5.5.5/dns-query#skip-cert-verify=true
+    +.rustdesk.com: https://223.5.5.5/dns-query#skip-cert-verify=true
   proxy-server-nameserver:
     - https://9.9.9.9/dns-query#skip-cert-verify=true
   direct-nameserver:
@@ -107,6 +108,9 @@ tun:
     # - 198.51.100.0/24
     # - 203.0.113.0/24
     # - 224.0.0.0/3
+    # bypass dns for troubleshooting when tun is enabled
+    - 119.29.29.29/32
+    # bypass rustdesk
     - 209.250.254.15/32
   dns-hijack:
     - any:53
