@@ -30,14 +30,17 @@ geox-url:
 #<<< GEO Configuration End <<<
 
 #>>> DNS Configuration Start >>>
-# 208.67.220.220 opendns
+# DoH and DoT have been banned by GFW
 # 9.9.9.9 quad9
+# 101.101.101.101 quad101
 # 1.1.1.1 cloudflare
 # 223.5.5.5 alidns
 # 119.29.29.29 tencent
+# tls://9.9.9.9:853
+# https://101.101.101.101/dns-query#skip-cert-verify=true
 dns:
   enable: true
-  prefer-h3: false
+  prefer-h3: true
   ipv6: false
   use-hosts: true
   use-system-hosts: true
@@ -46,26 +49,30 @@ dns:
   fake-ip-filter:
     - geosite:private
     - geosite:cn
-    - +.rustdesk.com
   default-nameserver:
     - 223.5.5.5
     - 9.9.9.9
   nameserver-policy:
     geosite:private: system
-    geosite:cn: https://223.5.5.5/dns-query#skip-cert-verify=true
-    +.rustdesk.com: https://223.5.5.5/dns-query#skip-cert-verify=true
+    geosite:cn: 
+      - https://dns.alidns.com/dns-query#skip-cert-verify=true
+      - https://doh.pub/dns-query#skip-cert-verify=true
   proxy-server-nameserver:
-    - https://9.9.9.9/dns-query#skip-cert-verify=true
+    - https://dns.alidns.com/dns-query#skip-cert-verify=true
+    - https://doh.pub/dns-query#skip-cert-verify=true
   direct-nameserver:
     - system
   nameserver:
-    - https://223.5.5.5/dns-query#skip-cert-verify=true
+    - https://dns.alidns.com/dns-query#skip-cert-verify=true
+    - https://doh.pub/dns-query#skip-cert-verify=true
   fallback:
-    - https://9.9.9.9/dns-query#skip-cert-verify=true
+    - 9.9.9.9
+    - 101.101.101.101
   fallback-filter:
     geoip: true
     geoip-code: CN
 #<<< DNS Configuration End <<<
+
 
 #>>> Domain Sniffing Configuration Start >>>
 sniffer:

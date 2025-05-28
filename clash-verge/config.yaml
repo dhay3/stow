@@ -32,6 +32,7 @@ proxy-groups-options:
   proxyGroupsUse: &proxyGroupsUse
     use:
       - sub1
+      - sub2
     <<: *proxyGroupsCommon
   proxyGroup: &proxyGroup { proxies: [🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN] }
   proxyGroupCombined: &proxyGroupCombined { proxies: [🌐 DIRECT,🚫 REJECT,🫴 MANUAL,🧅 TOR,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 FF] }
@@ -72,14 +73,17 @@ geox-url:
 #<<< GEO Configuration End <<<
 
 #>>> DNS Configuration Start >>>
-# 208.67.220.220 opendns
+# DoH and DoT have been banned by GFW
 # 9.9.9.9 quad9
+# 101.101.101.101 quad101
 # 1.1.1.1 cloudflare
 # 223.5.5.5 alidns
 # 119.29.29.29 tencent
+# tls://9.9.9.9:853
+# https://101.101.101.101/dns-query#skip-cert-verify=true
 dns:
   enable: true
-  prefer-h3: false
+  prefer-h3: true
   ipv6: false
   use-hosts: true
   use-system-hosts: true
@@ -88,22 +92,25 @@ dns:
   fake-ip-filter:
     - geosite:private
     - geosite:cn
-    - +.rustdesk.com
   default-nameserver:
     - 223.5.5.5
     - 9.9.9.9
   nameserver-policy:
     geosite:private: system
-    geosite:cn: https://223.5.5.5/dns-query#skip-cert-verify=true
-    +.rustdesk.com: https://223.5.5.5/dns-query#skip-cert-verify=true
+    geosite:cn: 
+      - https://dns.alidns.com/dns-query#skip-cert-verify=true
+      - https://doh.pub/dns-query#skip-cert-verify=true
   proxy-server-nameserver:
-    - https://9.9.9.9/dns-query#skip-cert-verify=true
+    - https://dns.alidns.com/dns-query#skip-cert-verify=true
+    - https://doh.pub/dns-query#skip-cert-verify=true
   direct-nameserver:
     - system
   nameserver:
-    - https://223.5.5.5/dns-query#skip-cert-verify=true
+    - https://dns.alidns.com/dns-query#skip-cert-verify=true
+    - https://doh.pub/dns-query#skip-cert-verify=true
   fallback:
-    - https://9.9.9.9/dns-query#skip-cert-verify=true
+    - 9.9.9.9
+    - 101.101.101.101
   fallback-filter:
     geoip: true
     geoip-code: CN
@@ -164,8 +171,13 @@ tun:
 proxy-providers:
   sub1:
     <<: *proxyProvidersCommon
-    url: https://example.org/sub1
+    url: https://sub1.com
     path: ./proxy_providers/sub1.yaml
+    proxy: 🇯🇵 JP
+  sub2:
+    <<: *proxyProvidersCommon
+    url: https://sub2.com
+    path: ./proxy_providers/sub2.yaml
     proxy: 🇯🇵 JP
 #<<< Proxy Providers Configuration End <<<
 
@@ -201,7 +213,7 @@ proxy-groups:
   - { name: 🇵🇰 PK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇵🇰|巴基斯坦|pakistan }
   - { name: 🇷🇺 RU,<<: *proxyGroupsInclude, type: select, filter: (?i)🇷🇺|俄罗斯|俄羅斯|russia }
   - { name: 🇸🇦 SA,<<: *proxyGroupsInclude, type: select, filter: (?i)🇸🇦|沙特|arabia }
-  - { name: 🇸🇬 SG,<<: *proxyGroupsInclude, type: select, filter: (?i)🇸🇬|新加坡|singapore }
+  - { name: 🇸🇬 SG,<<: *proxyGroupsInclude, type: select, filter: (?i)🇸🇬|新加坡|狮城|獅城|singapore }
   - { name: 🇹🇭 TH,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇭|泰国|泰國|Thailand }
   - { name: 🇹🇷 TR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇷|土耳其|turkey }
   - { name: 🇹🇼 TW,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇼|台湾|臺灣|taiwan }
@@ -210,8 +222,8 @@ proxy-groups:
   - { name: 🇺🇸 US,<<: *proxyGroupsInclude, type: select, filter: (?i)🇺🇸|美国|美國|西雅图|西雅圖|洛杉矶|洛杉磯|艾斯本|america|states|seattle|angeles|ashburn }
   - { name: 🇻🇳 VN,<<: *proxyGroupsInclude, type: select, filter: (?i)🇻🇳|越南|vietnam }
   - { name: 🏳️‍🌈 FF,<<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
-
   - { name: 🫴 MANUAL, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 FF] }
+
   - { name: 🚘 Auto, type: url-test, url: https://www.gstatic.com/generate_204, lazy: true, interval: 3600, timeout: 1000, tolerance: 30, max-failed-times: 3, <<: *proxyGroup }
   - { name: 🔙 Fallback, type: fallback, url: https://www.gstatic.com/generate_204, lazy: true, interval: 3600, timeout: 3000, max-failed-times: 3, <<: *proxyGroup }
   - { name: 🔊 ADS, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🫴 MANUAL] }
@@ -249,7 +261,10 @@ proxy-groups:
 rules:
   - GEOIP,PRIVATE,🌐 DIRECT,no-resolve
   - GEOIP,CN,🌐 DIRECT,no-resolve
+  - DOMAIN-SUFFIX,cn,🌐 DIRECT
+  - DOMAIN-KEYWORD,-cn,🌐 DIRECT
   - IP-CIDR,9.9.9.9/32,🌐 DIRECT,no-resolve
+  - IP-CIDR,101.101.101.101/32,🌐 DIRECT,no-resolve
   - GEOSITE,category-ads-all,🔊 ADS
   - GEOSITE,private,🌐 DIRECT
   - DOMAIN-SUFFIX,linux.do,🌐 DIRECT
