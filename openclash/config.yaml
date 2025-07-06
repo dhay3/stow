@@ -176,7 +176,10 @@ proxy-groups:
 rules:
   - GEOIP,PRIVATE,🌐 DIRECT,no-resolve
   - GEOIP,CN,🌐 DIRECT,no-resolve
+  - DOMAIN-SUFFIX,cn,🌐 DIRECT
+  - DOMAIN-KEYWORD,-cn,🌐 DIRECT
   - IP-CIDR,9.9.9.9/32,🌐 DIRECT,no-resolve
+  - IP-CIDR,101.101.101.101/32,🌐 DIRECT,no-resolve
   - GEOSITE,category-ads-all,🔊 ADS
   - GEOSITE,private,🌐 DIRECT
   - DOMAIN-SUFFIX,linux.do,🌐 DIRECT
