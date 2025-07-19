@@ -10,7 +10,8 @@
 
 #>>> Yaml Aliases Start >>>
 gneral-options:
-  healthCheck: &healthCheck { url: http://www.gstatic.com/generate_204, lazy: true, interval: 600, timeout: 3000 }
+  healthProviders: &healthProviders { url: http://www.gstatic.com/generate_204, lazy: true, interval: 600, timeout: 3000 }
+  healthProxies: &healthProxies { url: http://www.gstatic.com/generate_204, lazy: true, interval: 300, timeout: 5000 }
 
 proxy-providers-options:
   proxyProvidersCommon: &proxyProvidersCommon
@@ -18,11 +19,12 @@ proxy-providers-options:
     interval: 3600
     health-check:
       enable: true
-      <<: *healthCheck
+      <<: *healthProviders
+  proxyProvidersProxy: &proxyProvidersProxy { proxy: 🇯🇵 JP }
 
 proxy-groups-options:
   proxyGroupsCommon: &proxyGroupsCommon
-    <<: *healthCheck
+    <<: *healthProxies
     max-failed-times: 3
   proxyGroupsInclude: &proxyGroupsInclude
     include-all: true
@@ -31,11 +33,13 @@ proxy-groups-options:
     <<: *proxyGroupsCommon
   proxyGroupsUse: &proxyGroupsUse
     use:
-      - sub1
-      - sub2
+      - example1
+      - example2
+      - example3
     <<: *proxyGroupsCommon
-  proxyGroup: &proxyGroup { proxies: [🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN] }
-  proxyGroupCombined: &proxyGroupCombined { proxies: [🌐 DIRECT,🚫 REJECT,🫴 MANUAL,🧅 TOR,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 FF] }
+  proxyGroupsFiltered: &proxyGroupsFiltered { proxies: [🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 FF] }
+  proxyGroupsSelected: &proxyGroupsSelected { proxies: [🇸🇬 SG,🇺🇸 US] }
+  proxyGroupsCombined: &proxyGroupsCombined { proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🫴 MANUAL,🚘 AUTO,🔙 FALL,⏭️ SEL,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 FF] }
 
 rule-providers-options:
   ruleProvidersCommon: &ruleProvidersCommon { type: http, format: yaml, interval: 10368000 }
@@ -169,16 +173,24 @@ tun:
 #>>> Proxy Providers Configuration Start >>>
 # Replace url with your subscription
 proxy-providers:
-  sub1:
-    <<: *proxyProvidersCommon
-    url: https://sub1.com
-    path: ./proxy_providers/sub1.yaml
-    proxy: 🇯🇵 JP
-  sub2:
-    <<: *proxyProvidersCommon
-    url: https://sub2.com
-    path: ./proxy_providers/sub2.yaml
-    proxy: 🇯🇵 JP
+  example1:
+    <<: 
+      - *proxyProvidersCommon
+      - *proxyProvidersProxy
+    url: https://example1.org
+    path: ./proxy_providers/example1.yaml
+  example2:
+    <<: 
+      - *proxyProvidersCommon
+      - *proxyProvidersProxy
+    url: https://example2.org
+    path: ./proxy_providers/example2.yaml
+  example3:
+    <<: 
+      - *proxyProvidersCommon
+      - *proxyProvidersProxy
+    url: https://example3.org
+    path: ./proxy_providers/example3.yaml
 #<<< Proxy Providers Configuration End <<<
 
 #>>> Proxies Configuration Start >>>
@@ -188,8 +200,14 @@ proxies: [ { name: 🧅 TOR, type: socks5, server: 127.0.0.1, port: 9050, udp: t
 
 #>>> Proxy Groups(Policy) Configuration Start >>>
 proxy-groups:
-  - { name: 🌐 DIRECT, type: select, proxies: [ DIRECT ] }
-  - { name: 🚫 REJECT, type: select, proxies: [ REJECT ] }
+
+  - { name: 🫴 MANUAL, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🚘 AUTO,🔙 FALL,⏭️ SEL,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 FF] }
+  - { name: 🚘 AUTO, type: url-test, tolerance: 30, max-failed-times: 3, <<: [*proxyGroupsFiltered,*healthProxies] }
+  - { name: 🔙 FALL, type: fallback, max-failed-times: 3, <<: [*proxyGroupsFiltered,*healthProxies] }
+  - { name: ⏭️ SEL, type: fallback, max-failed-times: 3, <<: [*proxyGroupsSelected,*healthProxies] }
+
+  - { name: 🌐 DIRECT, type: select, proxies: [DIRECT] }
+  - { name: 🚫 REJECT, type: select, proxies: [REJECT] }
   - { name: 🇦🇷 AR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇦🇷|阿根廷|argentina }
   - { name: 🇦🇺 AU,<<: *proxyGroupsInclude, type: select, filter: (?i)🇦🇺|澳大利亚|澳大利亞|australia }
   - { name: 🇧🇷 BR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇧🇷|巴西|brazil }
@@ -222,28 +240,26 @@ proxy-groups:
   - { name: 🇺🇸 US,<<: *proxyGroupsInclude, type: select, filter: (?i)🇺🇸|美国|美國|西雅图|西雅圖|洛杉矶|洛杉磯|艾斯本|america|states|seattle|angeles|ashburn }
   - { name: 🇻🇳 VN,<<: *proxyGroupsInclude, type: select, filter: (?i)🇻🇳|越南|vietnam }
   - { name: 🏳️‍🌈 FF,<<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
-  - { name: 🫴 MANUAL, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 FF] }
 
-  - { name: 🚘 Auto, type: url-test, url: https://www.gstatic.com/generate_204, lazy: true, interval: 3600, timeout: 1000, tolerance: 30, max-failed-times: 3, <<: *proxyGroup }
-  - { name: 🔙 Fallback, type: fallback, url: https://www.gstatic.com/generate_204, lazy: true, interval: 3600, timeout: 3000, max-failed-times: 3, <<: *proxyGroup }
   - { name: 🔊 ADS, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🫴 MANUAL] }
-  - { name: 🤖 AI, type: select, <<: *proxyGroupCombined }
-  - { name: 🍎 Apple, type: select, <<: *proxyGroupCombined }
-  - { name: 🇬 Google, type: select, <<: *proxyGroupCombined }
-  - { name: 🧪 YouTube, type: select, <<: *proxyGroupCombined }
-  - { name: 🥅 Netflix, type: select, <<: *proxyGroupCombined }
-  - { name: 🐭 Disney, type: select, <<: *proxyGroupCombined }
-  - { name: 👌 HBO, type: select, <<: *proxyGroupCombined }
-  - { name: 🧙🏿‍♀️ Twitch, type: select, <<: *proxyGroupCombined }
-  - { name: 🐦 Twitter, type: select, <<: *proxyGroupCombined }
-  - { name: 📲 Telegram, type: select, <<: *proxyGroupCombined }
-  - { name: 🚂 Steam, type: select, <<: *proxyGroupCombined }
-  - { name: 🪟 Microsoft, type: select, <<: *proxyGroupCombined }
-  - { name: 📈 IPinfo, type: select, <<: *proxyGroupCombined }
-  - { name: 👂 Spotify, type: select, <<: *proxyGroupCombined }
-  - { name: 🀄 Manchuria, type: select, <<: *proxyGroupCombined }
-  - { name: 🪜 Proxy, type: select, <<: *proxyGroupCombined }
-  - { name: 🐟 Leakage, type: select, <<: *proxyGroupCombined }
+  - { name: 🤖 AI, type: select, <<: *proxyGroupsCombined }
+  - { name: 🍎 Apple, type: select, <<: *proxyGroupsCombined }
+  - { name: 🦉 Google, type: select, <<: *proxyGroupsCombined }
+  - { name: 🧪 YouTube, type: select, <<: *proxyGroupsCombined }
+  - { name: 🥅 Netflix, type: select, <<: *proxyGroupsCombined }
+  - { name: 🐭 Disney, type: select, <<: *proxyGroupsCombined }
+  - { name: 👌 HBO, type: select, <<: *proxyGroupsCombined }
+  - { name: 🧙🏿‍♀️ Twitch, type: select, <<: *proxyGroupsCombined }
+  - { name: 🐦 Twitter, type: select, <<: *proxyGroupsCombined }
+  - { name: 📲 Telegram, type: select, <<: *proxyGroupsCombined }
+  - { name: 🚂 Steam, type: select, <<: *proxyGroupsCombined }
+  - { name: 🪟 Microsoft, type: select, <<: *proxyGroupsCombined }
+  - { name: 📈 IPinfo, type: select, <<: *proxyGroupsCombined }
+  - { name: 👂 Spotify, type: select, <<: *proxyGroupsCombined }
+  - { name: 🀄 Manchuria, type: select, <<: *proxyGroupsCombined }
+  - { name: 🔄 Alter, type: select, <<: *proxyGroupsCombined }
+  - { name: 🪜 Proxy, type: select, <<: *proxyGroupsCombined }
+  - { name: 🐟 Leakage, type: select, <<: *proxyGroupsCombined }
 #<<< Proxy Groups(Policy) Configuration End <<<
 
 #>>> Rule Providers Configuration Start >>>
@@ -268,16 +284,18 @@ rules:
   - GEOSITE,category-ads-all,🔊 ADS
   - GEOSITE,private,🌐 DIRECT
   - DOMAIN-SUFFIX,linux.do,🌐 DIRECT
+  - DOMAIN-SUFFIX,right.com.cn,🌐 DIRECT
   - DOMAIN-SUFFIX,rustdesk.com,🌐 DIRECT
   - PROCESS-PATH-REGEX,.*rustdesk,🌐 DIRECT
   - AND,((DOMAIN,hf.co),(DST-PORT,22)),🌐 DIRECT
-  - DOMAIN,fast.com,📈 IPinfo
   - DOMAIN,check.torproject.org,📈 IPinfo
+  - DOMAIN,speed.cloudflare.com,📈 IPinfo
+  - DOMAIN,fast.com,📈 IPinfo
   - DOMAIN-SUFFIX,myip.la,📈 IPinfo
   - DOMAIN-SUFFIX,ipip.net,📈 IPinfo
   - DOMAIN-SUFFIX,ipinfo.io,📈 IPinfo
   - GEOSITE,speedtest,📈 IPinfo
-  - GEOSITE,google,🇬 Google
+  - GEOSITE,google,🦉 Google
   - GEOSITE,youtube,🧪 YouTube
   - GEOSITE,netflix,🥅 Netflix
   - GEOSITE,disney,🐭 Disney
@@ -288,11 +306,11 @@ rules:
   - GEOSITE,twitter,🐦 Twitter
   - GEOSITE,telegram,📲 Telegram
   - GEOSITE,spotify,👂 Spotify
-  - GEOSITE,microsoft@cn,🌐 DIRECT
+  - GEOSITE,microsoft@cn,🔄 Alter
   - GEOSITE,microsoft,🪟 Microsoft
-  - GEOSITE,apple@cn,🌐 DIRECT
+  - GEOSITE,apple@cn,🔄 Alter
   - GEOSITE,apple,🍎 Apple
-  - GEOSITE,steam@cn,🌐 DIRECT
+  - GEOSITE,steam@cn,🔄 Alter
   - GEOSITE,steam,🚂 Steam
   - GEOSITE,bilibili,🀄 Manchuria
   - GEOSITE,zhihu,🀄 Manchuria
