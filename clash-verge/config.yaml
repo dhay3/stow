@@ -37,9 +37,9 @@ proxy-groups-options:
       - example2
       - example3
     <<: *proxyGroupsCommon
-  proxyGroupsFiltered: &proxyGroupsFiltered { proxies: [🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 FF] }
+  proxyGroupsFiltered: &proxyGroupsFiltered { proxies: [🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🌏 FF] }
   proxyGroupsSelected: &proxyGroupsSelected { proxies: [🇸🇬 SG,🇺🇸 US] }
-  proxyGroupsCombined: &proxyGroupsCombined { proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🫴 MANUAL,🚘 AUTO,🔙 FALL,⏭️ SEL,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 FF] }
+  proxyGroupsCombined: &proxyGroupsCombined { proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🫴 MANUAL,🚘 AUTO,🔙 FALL,⏭️ SEL,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🌏 FF] }
 
 rule-providers-options:
   ruleProvidersCommon: &ruleProvidersCommon { type: http, format: yaml, interval: 10368000 }
@@ -201,13 +201,13 @@ proxies: [ { name: 🧅 TOR, type: socks5, server: 127.0.0.1, port: 9050, udp: t
 #>>> Proxy Groups(Policy) Configuration Start >>>
 proxy-groups:
 
-  - { name: 🫴 MANUAL, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🚘 AUTO,🔙 FALL,⏭️ SEL,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🏳️‍🌈 FF] }
+  - { name: 🌐 DIRECT, type: select, proxies: [DIRECT] }
+  - { name: 🚫 REJECT, type: select, proxies: [REJECT] }
+  - { name: 🫴 MANUAL, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🚘 AUTO,🔙 FALL,⏭️ SEL,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🌏 FF] }
   - { name: 🚘 AUTO, type: url-test, tolerance: 30, max-failed-times: 3, <<: [*proxyGroupsFiltered,*healthProxies] }
   - { name: 🔙 FALL, type: fallback, max-failed-times: 3, <<: [*proxyGroupsFiltered,*healthProxies] }
   - { name: ⏭️ SEL, type: fallback, max-failed-times: 3, <<: [*proxyGroupsSelected,*healthProxies] }
 
-  - { name: 🌐 DIRECT, type: select, proxies: [DIRECT] }
-  - { name: 🚫 REJECT, type: select, proxies: [REJECT] }
   - { name: 🇦🇷 AR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇦🇷|阿根廷|argentina }
   - { name: 🇦🇺 AU,<<: *proxyGroupsInclude, type: select, filter: (?i)🇦🇺|澳大利亚|澳大利亞|australia }
   - { name: 🇧🇷 BR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇧🇷|巴西|brazil }
@@ -239,7 +239,7 @@ proxy-groups:
   - { name: 🇬🇧 UK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇬🇧|英|英國|england|kingdom|britsh }
   - { name: 🇺🇸 US,<<: *proxyGroupsInclude, type: select, filter: (?i)🇺🇸|美国|美國|西雅图|西雅圖|洛杉矶|洛杉磯|艾斯本|america|states|seattle|angeles|ashburn }
   - { name: 🇻🇳 VN,<<: *proxyGroupsInclude, type: select, filter: (?i)🇻🇳|越南|vietnam }
-  - { name: 🏳️‍🌈 FF,<<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
+  - { name: 🌏 FF,<<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
 
   - { name: 🔊 ADS, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🫴 MANUAL] }
   - { name: 🤖 AI, type: select, <<: *proxyGroupsCombined }
