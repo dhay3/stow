@@ -1,0 +1,64 @@
+[user]
+	name = cyberpelican
+	email = 62749885+dhay3@users.noreply.github.com
+	signingKey = 0D1FBFEA9F499F6A6A01A49D1D8AC28A0E990946
+[core]
+	editor = nvim
+	autocrlf = input
+	ignoreCase = true
+  pager = less
+  #pager = delta
+[color]
+	ui = always
+[init]
+	defaultBranch = main
+[push]
+  autoSetupRemote = true
+[alias]
+	br = branch
+  ro = remote
+	ck = checkout
+	sw = switch
+  st = status
+  ad = add
+  cm = commit --no-edit
+  df = diff
+  lg = log --reverse --format='format:%C(auto)%h%C(reset) - %C(auto)(%ar)%C(reset) %C(bold white)%s%C(reset) - %C(auto)%an%C(reset) %C(auto)%d%C(reset)'
+	lg1 = log --all --graph --format='format:%C(auto)%h%C(reset) - %C(auto)(%ar)%C(reset) %C(bold white)%s%C(reset) - %C(auto)%an%C(reset) %C(auto)%d%C(reset)'
+	lg2 = log --all --graph --format='format:%C(auto)%h%C(reset) - %C(auto)(%aD)%C(reset) %C(bold white)%s%C(reset) - %C(auto)%an%C(reset) %C(auto)%d%C(reset)'
+[pager]
+	show = false
+	branch = false
+	tag = false
+	log = false
+	reflog = false
+	diff = false
+[commit]
+	gpgSign = 1
+[tag]
+	gpgSign = 1
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[safe]
+	directory = /opt/beef
+[credential]
+	helper = store
+[diff]
+  tool = kdiff3
+[difftool]
+	prompt = false
+	keepBackup = false
+	trustExitCode = false
+[merge]
+  tool = kdiff3
+[mergetool]
+	prompt = false
+	keepBackup = false
+	keepTemporaries = false
+#[log]
+#	showSignature = 1
+[delta]
+  side-by-side = true

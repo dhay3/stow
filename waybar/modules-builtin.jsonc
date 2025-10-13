@@ -1,0 +1,22 @@
+{
+  "hyprland/workspaces": {
+    "active-only": false,
+    "show-special": true,
+    "format": "{id}",
+    "sort-by": "default",
+    "persistent-workspaces": {
+      "*": 4
+    }
+  },
+  "hyprland/window": {
+    "format": "{title}"
+  },
+  "hyprland/language": {
+    "format": "{}"
+  },
+  "cpu": {
+    "interval": 10,
+    "format": "{}% ",
+    "max-length": 10
+  }
+}

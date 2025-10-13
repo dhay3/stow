@@ -1,0 +1,25 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo":
+    {
+        "source": "Arya"
+    },
+    "modules":
+    [
+        "host",
+        "board",
+        "bios",
+        "cpu",
+        "gpu",
+        "physicaldisk",
+        "monitor",
+        "camera",
+        "sound",
+        "bluetooth",
+        "poweradapter",
+        "os",
+        "kernel",
+        "separator",
+        "title"
+    ]
+}

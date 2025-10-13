@@ -1,0 +1,17 @@
+# fcitx5 use shift to switch method when pressed rime is working like commit_text
+# if not used to it, use fcitx5-chinese-addons 
+patch:
+  __include: rime_ice_suggestion:/
+  schema_list:
+    - schema: double_pinyin
+  switcher/caption: 〔选项〕
+  menu/page_size: 6
+  ascii_composer:
+    good_old_caps_lock: true
+    switch_key:
+      Shift_L: commit_code
+      Control_L: inline_ascii
+      Shift_R: noop
+      Control_R: noop
+      Caps_Lock: noop
+      Eisu_toggle: clear

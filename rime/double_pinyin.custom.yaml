@@ -1,0 +1,77 @@
+# yay -S rime-ice-double-pinyin-git
+# uU 启用 radical 拼音
+patch:
+  translator/preedit_format: []
+  # Ambiguous Spell
+  speller/algebra:
+    - erase/^xx$/
+    - derive/^([jqxy])u$/$1v/
+    - derive/^([aoe])([ioun])$/$1$1$2/ 
+    - derive/^([zcs])h/$1/
+    - derive/^([zcs])([^h])/$1h$2/
+    # - derive/eng$/en/
+    - derive/en$/eng/
+    - derive/in$/ing/
+    - derive/ing$/in/
+    - xform/^([aoe])(ng)?$/$1$1$2/
+    - xform/iu$/Ⓠ/
+    - xform/[iu]a$/Ⓦ/
+    - xform/[uv]an$/Ⓡ/
+    - xform/[uv]e$/Ⓣ/
+    - xform/ing$|uai$/Ⓨ/
+    - xform/^sh/Ⓤ/
+    - xform/^ch/Ⓘ/
+    - xform/^zh/Ⓥ/
+    - xform/uo$/Ⓞ/
+    - xform/[uv]n$/Ⓟ/
+    - xform/(.)i?ong$/$1Ⓢ/
+    - xform/[iu]ang$/Ⓓ/
+    - xform/(.)en$/$1Ⓕ/
+    - xform/(.)eng$/$1Ⓖ/
+    - xform/(.)ang$/$1Ⓗ/
+    - xform/ian$/Ⓜ/
+    - xform/(.)an$/$1Ⓙ/
+    - xform/iao$/Ⓒ/
+    - xform/(.)ao$/$1Ⓚ/
+    - xform/(.)ai$/$1Ⓛ/
+    - xform/(.)ei$/$1Ⓩ/
+    - xform/ie$/Ⓧ/
+    - xform/ui$/Ⓥ/
+    - xform/(.)ou$/$1Ⓑ/
+    - xform/in$/Ⓝ/
+    - xlit/ⓆⓌⓇⓉⓎⓊⒾⓄⓅⓈⒹⒻⒼⒽⓂⒿⒸⓀⓁⓏⓍⓋⒷⓃ/qwrtyuiopsdfghmjcklzxvbn/
+  key_binder:
+    bindings:
+      # Paginate
+      - { when: has_menu, accept: minus, send: Page_Up }
+      - { when: has_menu, accept: equal, send: Page_Down }
+
+      # Switch syllables
+      - { when: composing, accept: bracketleft, send: Shift+Left }
+      - { when: composing, accept: bracketright, send: Shift+Right }
+      - { when: composing, accept: semicolon, send: Home }
+      - { when: composing, accept: apostrophe, send: End }
+
+      # Switch candidates
+      - { when: composing, accept: Shift+Tab, send: Up }
+      - { when: composing, accept: Shift+ISO_Left_Tab, send: Up }
+      - { when: composing, accept: Tab, send: Down }
+      - { when: composing, accept: KP_1, send: 1 }
+      - { when: composing, accept: KP_2, send: 2 }
+      - { when: composing, accept: KP_3, send: 3 }
+      - { when: composing, accept: KP_4, send: 4 }
+      - { when: composing, accept: KP_5, send: 5 }
+      - { when: composing, accept: KP_6, send: 6 }
+      - { when: composing, accept: KP_7, send: 7 }
+      - { when: composing, accept: KP_8, send: 8 }
+      - { when: composing, accept: KP_9, send: 9 }
+
+      # Toggle options
+      - { when: always, accept: Control+Shift+space, toggle: ascii_mode }
+      - { when: always, accept: Control+Shift+less, toggle: full_shape }
+      - { when: always, accept: Control+Shift+greater, toggle: ascii_punct} 
+      - { when: always, accept: Control+Shift+question, toggle: simplification }
+
+      # Other
+      - { when: composing, accept: Control+c, send: Escape }
+

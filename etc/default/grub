@@ -1,0 +1,19 @@
+GRUB_DEFAULT=saved
+GRUB_TIMEOUT=-1
+GRUB_TIMEOUT_STYLE=hidden
+GRUB_DISTRIBUTOR="Manjaro"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash bgrt_disable nowatchdog resume=UUID=75265166-e3e7-4489-bbbb-6698c134f6b2 udev.log_priority=3 ec_sys.write_support=1"
+GRUB_CMDLINE_LINUX=""
+GRUB_PRELOAD_MODULES="part_gpt part_msdos"
+#Enable GRUB_THEME
+GRUB_TERMINAL_OUTPUT="gfxterm"
+#Disable GRUB_THEME
+#GRUB_TERMINAL_OUTPUT=console
+GRUB_GFXMODE=auto
+GRUB_GFXPAYLOAD_LINUX=keep
+GRUB_DISABLE_RECOVERY=true
+GRUB_COLOR_NORMAL="white/black"
+GRUB_COLOR_HIGHLIGHT="white/green"
+GRUB_SAVEDEFAULT=true
+GRUB_DISABLE_OS_PROBER=false
+GRUB_THEME=/boot/grub/themes/OldBIOS/theme.txt

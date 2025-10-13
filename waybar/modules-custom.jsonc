@@ -1,0 +1,18 @@
+{
+  "custom/left-arrow-leading": {
+    "format": "",
+    "tooltip": false
+  },
+  "custom/left-arrow-trailing": {
+    "format": "",
+    "tooltip": false
+  },
+  "custom/right-arrow-leading": {
+    "format": "",
+    "tooltip": false
+  },
+  "custom/right-light-trailing": {
+    "format": "",
+    "tooltip": false
+  }
+}

@@ -1,0 +1,5 @@
+[General]
+passwordCharacter=/
+passwordInputCursorVisible=false
+hideCursor=true
+type=image

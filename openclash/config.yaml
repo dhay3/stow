@@ -1,0 +1,242 @@
+gneral-options:
+  healthProviders: &healthProviders { url: http://www.gstatic.com/generate_204, lazy: true, interval: 600, timeout: 3000 }
+  healthProxies: &healthProxies { url: http://www.gstatic.com/generate_204, lazy: true, interval: 300, timeout: 5000 }
+
+proxy-providers-options:
+  proxyProvidersCommon: &proxyProvidersCommon
+    type: http
+    interval: 3600
+    health-check:
+      enable: true
+      <<: *healthProviders
+  proxyProvidersProxy: &proxyProvidersProxy { proxy: 🇯🇵 JP }
+
+proxy-groups-options:
+  proxyGroupsCommon: &proxyGroupsCommon
+    <<: *healthProxies
+    max-failed-times: 3
+  proxyGroupsInclude: &proxyGroupsInclude
+    include-all: true
+    #include-all-proxies: false
+    #include-all-providers: false
+    <<: *proxyGroupsCommon
+  proxyGroupsUse: &proxyGroupsUse
+    use:
+      - sub1
+      - sub2
+    <<: *proxyGroupsCommon
+  proxyGroupsFiltered: &proxyGroupsFiltered { proxies: [🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🌏 FF] }
+  proxyGroupsSelected: &proxyGroupsSelected { proxies: [🇸🇬 SG,🇺🇸 US] }
+  proxyGroupsCombined: &proxyGroupsCombined { proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🫴 MANUAL,🚘 AUTO,🔙 FALL,⏭️ SEL,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🌏 FF] }
+
+rule-providers-options:
+  ruleProvidersCommon: &ruleProvidersCommon { type: http, format: yaml, interval: 10368000 }
+
+log-level: silent
+allow-lan: true
+ipv6: false
+unified-delay: true
+tcp-concurrent: true
+keep-alive-interval: 300
+global-client-fingerprint: random
+global-ua: clash.meta
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+geodata-loader: standard
+geo-auto-update: true
+geo-update-interval: 168
+geox-url:
+  geoip: "https://hub.gitmirror.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  geosite: "https://hub.gitmirror.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://hub.gitmirror.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb"
+  asn: "https://hub.gitmirror.com/https://github.com/xishang0128/geoip/releases/download/latest/GeoLite2-ASN.mmdb"
+
+dns:
+  enable: true
+  prefer-h3: false
+  ipv6: false
+  use-hosts: true
+  use-system-hosts: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.40.0.1/16
+  fake-ip-filter:
+    - geosite:private
+    - geosite:cn
+    - +.rustdesk.com
+  default-nameserver:
+    - 223.5.5.5
+    - 9.9.9.9
+  nameserver-policy:
+    geosite:private: system
+    geosite:cn:
+     - https://dns.alidns.com/dns-query#skip-cert-verify=true
+     - https://doh.pub/dns-query#skip-cert-verify=true
+  proxy-server-nameserver:
+     - https://dns.alidns.com/dns-query#skip-cert-verify=true
+     - https://doh.pub/dns-query#skip-cert-verify=true
+  direct-nameserver:
+    - system
+  nameserver:
+     - https://dns.alidns.com/dns-query#skip-cert-verify=true
+     - https://doh.pub/dns-query#skip-cert-verify=true
+  fallback:
+    - 9.9.9.9
+    - 101.101.101.101
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+sniffer:
+  enable: true
+  sniff:
+    HTTP:
+      ports: [80]
+    TLS:
+      ports: [443]
+    QUIC:
+      ports: [443]
+  skip-domain:
+    - +.lan
+    - +.local
+    - +.localhost
+
+tun:
+  enable: true
+  stack: mixed
+  auto-route: true
+  auto-redirect: false
+  auto-detect-interface: true
+  strict-route: true
+  route-exclude-address:
+    - 209.250.254.15/32
+    - 8.153.99.116/32
+  dns-hijack:
+    - any:53
+  mtu: 1500
+
+proxy-providers:
+  sub1:
+    <<: *proxyProvidersCommon
+    url: https://sub1
+    path: ./proxy_providers/sub1.yaml
+    proxy: 🇯🇵 JP
+  sub2:
+    <<: *proxyProvidersCommon
+    url: https://sub2
+    path: ./proxy_providers/sub2.yaml
+    proxy: 🇯🇵 JP
+
+proxies: [ { name: 🧅 TOR, type: socks5, server: 127.0.0.1, port: 9050, udp: true, ip-version: ipv4 } ]
+
+proxy-groups:
+
+  - { name: 🌐 DIRECT, type: select, proxies: [DIRECT] }
+  - { name: 🚫 REJECT, type: select, proxies: [REJECT] }
+  - { name: 🫴 MANUAL, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🚘 AUTO,🔙 FALL,⏭️ SEL,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🌏 FF] }
+  - { name: 🚘 AUTO, type: url-test, tolerance: 30, max-failed-times: 3, <<: [*proxyGroupsFiltered,*healthProxies] }
+  - { name: 🔙 FALL, type: fallback, max-failed-times: 3, <<: [*proxyGroupsFiltered,*healthProxies] }
+  - { name: ⏭️ SEL, type: fallback, max-failed-times: 3, <<: [*proxyGroupsSelected,*healthProxies] }
+
+  - { name: 🇦🇷 AR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇦🇷|阿根廷|argentina }
+  - { name: 🇦🇺 AU,<<: *proxyGroupsInclude, type: select, filter: (?i)🇦🇺|澳大利亚|澳大利亞|australia }
+  - { name: 🇧🇷 BR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇧🇷|巴西|brazil }
+  - { name: 🇨🇦 CA,<<: *proxyGroupsInclude, type: select, filter: (?i)🇨🇦|加拿大|canada }
+  - { name: 🇩🇪 DE,<<: *proxyGroupsInclude, type: select, filter: (?i)🇩🇪|德国|德國|柏林|慕尼黑|germany }
+  - { name: 🇪🇬 EG,<<: *proxyGroupsInclude, type: select, filter: (?i)🇪🇬|埃及|egypt }
+  - { name: 🇫🇷 FR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇫🇷|法国|法國|福兰克|福蘭克|french }
+  - { name: 🇭🇰 HK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇭🇰|香港|hongkong }
+  - { name: 🇮🇩 ID,<<: *proxyGroupsInclude, type: select, filter: (?i)🇮🇩|印尼|indonesia }
+  - { name: 🇮🇳 IN,<<: *proxyGroupsInclude, type: select, filter: (?i)🇮🇳|印度|india }
+  - { name: 🇯🇵 JP,<<: *proxyGroupsInclude, type: select, filter: (?i)🇯🇵|日本|japan }
+  - { name: 🇰🇵 KP,<<: *proxyGroupsInclude, type: select, filter: (?i)🇰🇵|朝鲜|朝鮮 }
+  - { name: 🇰🇷 KR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇰🇷|韩国|韓國 }
+  - { name: 🇲🇴 MA,<<: *proxyGroupsInclude, type: select, filter: (?i)🇲🇴|澳门|澳門|maco }
+  - { name: 🇲🇽 MX,<<: *proxyGroupsInclude, type: select, filter: (?i)🇲🇽|墨西哥|mexico }
+  - { name: 🇲🇾 MY,<<: *proxyGroupsInclude, type: select, filter: (?i)🇲🇾|马来西亚|馬來西亞|malaysia }
+  - { name: 🇳🇬 NG,<<: *proxyGroupsInclude, type: select, filter: (?i)🇳🇬|尼日利亚|nigeria }
+  - { name: 🇳🇱 NL,<<: *proxyGroupsInclude, type: select, filter: (?i)🇳🇱|荷兰|荷蘭|netherlands }
+  - { name: 🇳🇿 NZ,<<: *proxyGroupsInclude, type: select, filter: (?i)🇳🇿|新西兰|新西蘭|zeeland }
+  - { name: 🇵🇭 PH,<<: *proxyGroupsInclude, type: select, filter: (?i)🇵🇭|菲律宾|菲律賓|philippines }
+  - { name: 🇵🇰 PK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇵🇰|巴基斯坦|pakistan }
+  - { name: 🇷🇺 RU,<<: *proxyGroupsInclude, type: select, filter: (?i)🇷🇺|俄罗斯|俄羅斯|russia }
+  - { name: 🇸🇦 SA,<<: *proxyGroupsInclude, type: select, filter: (?i)🇸🇦|沙特|arabia }
+  - { name: 🇸🇬 SG,<<: *proxyGroupsInclude, type: select, filter: (?i)🇸🇬|新加坡|狮城|獅城|singapore }
+  - { name: 🇹🇭 TH,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇭|泰国|泰國|Thailand }
+  - { name: 🇹🇷 TR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇷|土耳其|turkey }
+  - { name: 🇹🇼 TW,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇼|台湾|臺灣|taiwan }
+  - { name: 🇺🇦 UA,<<: *proxyGroupsInclude, type: select, filter: (?i)🇺🇦|乌克兰|烏克蘭|ukrainian }
+  - { name: 🇬🇧 UK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇬🇧|英|英國|england|kingdom|britsh }
+  - { name: 🇺🇸 US,<<: *proxyGroupsInclude, type: select, filter: (?i)🇺🇸|美国|美國|西雅图|西雅圖|洛杉矶|洛杉磯|艾斯本|america|states|seattle|angeles|ashburn }
+  - { name: 🇻🇳 VN,<<: *proxyGroupsInclude, type: select, filter: (?i)🇻🇳|越南|vietnam }
+  - { name: 🌏 FF,<<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
+
+  - { name: 🔊 ADS, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🫴 MANUAL] }
+  - { name: 🤖 AI, type: select, <<: *proxyGroupsCombined }
+  - { name: 🍎 Apple, type: select, <<: *proxyGroupsCombined }
+  - { name: 🦉 Google, type: select, <<: *proxyGroupsCombined }
+  - { name: 🧪 YouTube, type: select, <<: *proxyGroupsCombined }
+  - { name: 🥅 Netflix, type: select, <<: *proxyGroupsCombined }
+  - { name: 🐭 Disney, type: select, <<: *proxyGroupsCombined }
+  - { name: 👌 HBO, type: select, <<: *proxyGroupsCombined }
+  - { name: 🧙🏿‍♀️ Twitch, type: select, <<: *proxyGroupsCombined }
+  - { name: 🐦 Twitter, type: select, <<: *proxyGroupsCombined }
+  - { name: 📲 Telegram, type: select, <<: *proxyGroupsCombined }
+  - { name: 🚂 Steam, type: select, <<: *proxyGroupsCombined }
+  - { name: 🪟 Microsoft, type: select, <<: *proxyGroupsCombined }
+  - { name: 📈 IPinfo, type: select, <<: *proxyGroupsCombined }
+  - { name: 👂 Spotify, type: select, <<: *proxyGroupsCombined }
+  - { name: 🪙 Crypto, type: select, <<: *proxyGroupsCombined }
+  - { name: 🀄 Manchuria, type: select, <<: *proxyGroupsCombined }
+  - { name: 🔄 Alter, type: select, <<: *proxyGroupsCombined }
+  - { name: 🪜 Proxy, type: select, <<: *proxyGroupsCombined }
+  - { name: 🐟 Leakage, type: select, <<: *proxyGroupsCombined }
+
+rules:
+  - GEOIP,PRIVATE,🌐 DIRECT,no-resolve
+  - GEOIP,CN,🌐 DIRECT,no-resolve
+  - DOMAIN-SUFFIX,cn,🌐 DIRECT
+  - DOMAIN-KEYWORD,-cn,🌐 DIRECT
+  - IP-CIDR,9.9.9.9/32,🌐 DIRECT,no-resolve
+  - IP-CIDR,101.101.101.101/32,🌐 DIRECT,no-resolve
+  - GEOSITE,category-ads-all,🔊 ADS
+  - GEOSITE,private,🌐 DIRECT
+  - DOMAIN-SUFFIX,linux.do,🌐 DIRECT
+  - DOMAIN-SUFFIX,right.com.cn,🌐 DIRECT
+  - DOMAIN-SUFFIX,rustdesk.com,🌐 DIRECT
+  - PROCESS-PATH-REGEX,.*rustdesk,🌐 DIRECT
+  - AND,((DOMAIN,hf.co),(DST-PORT,22)),🌐 DIRECT
+  - DOMAIN,check.torproject.org,📈 IPinfo
+  - DOMAIN,speed.cloudflare.com,📈 IPinfo
+  - DOMAIN,fast.com,📈 IPinfo
+  - DOMAIN-SUFFIX,myip.la,📈 IPinfo
+  - DOMAIN-SUFFIX,ipip.net,📈 IPinfo
+  - DOMAIN-SUFFIX,ipinfo.io,📈 IPinfo
+  - GEOSITE,speedtest,📈 IPinfo
+  - GEOSITE,google,🦉 Google
+  - GEOSITE,youtube,🧪 YouTube
+  - GEOSITE,netflix,🥅 Netflix
+  - GEOSITE,disney,🐭 Disney
+  - GEOSITE,hbo,👌 HBO
+  - GEOSITE,openai,🤖 AI
+  - GEOSITE,anthropic,🤖 AI
+  - GEOSITE,twitch,🧙🏿‍♀️ Twitch
+  - GEOSITE,twitter,🐦 Twitter
+  - GEOSITE,telegram,📲 Telegram
+  - GEOSITE,spotify,👂 Spotify
+  - GEOSITE,microsoft@cn,🔄 Alter
+  - GEOSITE,microsoft,🪟 Microsoft
+  - GEOSITE,apple@cn,🔄 Alter
+  - GEOSITE,apple,🍎 Apple
+  - GEOSITE,steam@cn,🔄 Alter
+  - GEOSITE,steam,🚂 Steam
+  - GEOSITE,bybit,🪙 Crypto
+  - GEOSITE,binance,🪙 Crypto
+  - GEOSITE,okx,🪙 Crypto
+  - GEOSITE,bilibili,🀄 Manchuria
+  - GEOSITE,zhihu,🀄 Manchuria
+  - GEOSITE,douban,🀄 Manchuria
+  - GEOSITE,smzdm,🀄 Manchuria
+  - GEOSITE,cn,🌐 DIRECT
+  - GEOSITE,geolocation-!cn,🪜 Proxy
+  - MATCH,🐟 Leakage

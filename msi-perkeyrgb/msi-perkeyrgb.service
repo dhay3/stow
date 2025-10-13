@@ -1,0 +1,12 @@
+[Unit]
+Description=msi-perkeyrgb
+After=syslog.target
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/msi-perkeyrgb --id 1038:113a -m GE75 -c /home/cc/.config/msi-perkeyrgb/msi-perkeyrgb.conf
+ExecStop=/usr/bin/msi-perkeyrgb --id 1038:113a -m GE75 -d 
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

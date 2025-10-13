@@ -1,0 +1,31 @@
+[1]
+Description=Window settings for kittYa
+above=true
+aboverule=3
+noborder=true
+noborderrule=3
+position=0,35
+positionrule=3
+size=2133,997
+sizerule=3
+title=Quick Settings — System Settings
+types=1
+wmclass=kittYa
+wmclassmatch=1
+
+[2]
+Description=Window settings for kitty
+above=true
+activity=00000000-0000-0000-0000-000000000000
+desktops=\\0
+noborder=true
+position=0,35
+positionrule=3
+size=2133,1165
+sizerule=3
+title=Quick Settings — System Settings
+types=1
+wmclass=kitty
+wmclassmatch=1
+
+

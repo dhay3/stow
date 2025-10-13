@@ -1,0 +1,17 @@
+{
+    "update_check": false,
+    "ignored_packages":
+    [
+        "SideBarEnhancements",
+        "Vintage",
+    ],
+    "font_size": 15,
+    "font_face": "Hack Nerd Font",
+    "line_numbers": true,
+    "spell_check": false,
+    "tab_size": 2,
+    "theme": "Material-Theme-Palenight.sublime-theme",
+    "color_scheme": "Packages/Material Theme/schemes/Material-Theme-Palenight.tmTheme",
+    "index_files": false,
+    "open_files_in_new_window": false,
+}

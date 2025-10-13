@@ -1,0 +1,6 @@
+channels:
+  - defaults
+  - conda-forge
+#changeps1: false
+env_prompt: "\x1b[38;5;29m╭─ conda on (\x1b[38;5;120m{default_env}\x1b[0m\x1b[38;5;29m) \u25CF \x1b[38;5;29m\n╰─\x1b[0m "
+auto_activate_base: false
