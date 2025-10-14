@@ -193,19 +193,7 @@ proxy-groups:
   - { name: 🐟 Leakage, type: select, <<: *proxyGroupsCombined }
 
 rules:
-  - GEOIP,PRIVATE,🌐 DIRECT,no-resolve
-  - GEOIP,CN,🌐 DIRECT,no-resolve
-  - DOMAIN-SUFFIX,cn,🌐 DIRECT
-  - DOMAIN-KEYWORD,-cn,🌐 DIRECT
-  - IP-CIDR,9.9.9.9/32,🌐 DIRECT,no-resolve
-  - IP-CIDR,101.101.101.101/32,🌐 DIRECT,no-resolve
   - GEOSITE,category-ads-all,🔊 ADS
-  - GEOSITE,private,🌐 DIRECT
-  - DOMAIN-SUFFIX,linux.do,🌐 DIRECT
-  - DOMAIN-SUFFIX,right.com.cn,🌐 DIRECT
-  - DOMAIN-SUFFIX,rustdesk.com,🌐 DIRECT
-  - PROCESS-PATH-REGEX,.*rustdesk,🌐 DIRECT
-  - AND,((DOMAIN,hf.co),(DST-PORT,22)),🌐 DIRECT
   - DOMAIN,check.torproject.org,📈 IPinfo
   - DOMAIN,speed.cloudflare.com,📈 IPinfo
   - DOMAIN,fast.com,📈 IPinfo
@@ -238,6 +226,18 @@ rules:
   - GEOSITE,zhihu,🀄 Manchuria
   - GEOSITE,douban,🀄 Manchuria
   - GEOSITE,smzdm,🀄 Manchuria
+  - GEOIP,PRIVATE,🌐 DIRECT,no-resolve
+  - GEOIP,CN,🌐 DIRECT,no-resolve
+  - DOMAIN-SUFFIX,cn,🌐 DIRECT
+  - DOMAIN-KEYWORD,-cn,🌐 DIRECT
+  - IP-CIDR,9.9.9.9/32,🌐 DIRECT,no-resolve
+  - IP-CIDR,101.101.101.101/32,🌐 DIRECT,no-resolve
+  - GEOSITE,private,🌐 DIRECT
   - GEOSITE,cn,🌐 DIRECT
+  - DOMAIN-SUFFIX,linux.do,🌐 DIRECT
+  - DOMAIN-SUFFIX,right.com.cn,🌐 DIRECT
+  - DOMAIN-SUFFIX,rustdesk.com,🌐 DIRECT
+  - PROCESS-PATH-REGEX,.*rustdesk,🌐 DIRECT
+  - AND,((DOMAIN,hf.co),(DST-PORT,22)),🌐 DIRECT
   - GEOSITE,geolocation-!cn,🪜 Proxy
   - MATCH,🐟 Leakage
