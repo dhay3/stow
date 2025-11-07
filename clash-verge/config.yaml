@@ -317,7 +317,6 @@ rules:
   - IP-CIDR,101.101.101.101/32,🌐 DIRECT,no-resolve
   - GEOSITE,private,🌐 DIRECT
   - GEOSITE,cn,🌐 DIRECT
-  - DOMAIN-SUFFIX,linux.do,🌐 DIRECT
   - DOMAIN-SUFFIX,right.com.cn,🌐 DIRECT
   - DOMAIN-SUFFIX,rustdesk.com,🌐 DIRECT
   - PROCESS-PATH-REGEX,.*rustdesk,🌐 DIRECT
