@@ -165,6 +165,7 @@ tun:
     - 1.1.1.1/32
     # bypass rustdesk
     - 209.250.254.15/32
+    - 8.153.99.116/32
   dns-hijack:
     - any:53
   mtu: 1500
@@ -173,23 +174,23 @@ tun:
 #>>> Proxy Providers Configuration Start >>>
 # Replace url with your subscription
 proxy-providers:
-  example1:
+  XiongMao:
     <<:
       - *proxyProvidersCommon
       - *proxyProvidersProxy
-    url: https://example1.org
+    url: https://example1.com
     path: ./proxy_providers/example1.yaml
-  example2:
+  YiYun:
     <<:
       - *proxyProvidersCommon
       - *proxyProvidersProxy
-    url: https://example2.org
+    url: https://example2.com
     path: ./proxy_providers/example2.yaml
-  example3:
+  YToo:
     <<:
       - *proxyProvidersCommon
       - *proxyProvidersProxy
-    url: https://example3.org
+    url: https://example3.com
     path: ./proxy_providers/example3.yaml
 #<<< Proxy Providers Configuration End <<<
 
@@ -203,42 +204,20 @@ proxy-groups:
 
   - { name: 🌐 DIRECT, type: select, proxies: [DIRECT] }
   - { name: 🚫 REJECT, type: select, proxies: [REJECT] }
-  - { name: 🫴 MANUAL, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🚘 AUTO,🔙 FALL,⏭️ SEL,🇦🇷 AR,🇦🇺 AU,🇧🇷 BR,🇨🇦 CA,🇩🇪 DE,🇪🇬 EG,🇫🇷 FR,🇭🇰 HK,🇮🇩 ID,🇮🇳 IN,🇯🇵 JP,🇰🇵 KP,🇰🇷 KR,🇲🇴 MA,🇲🇽 MX,🇲🇾 MY,🇳🇬 NG,🇳🇱 NL,🇳🇿 NZ,🇵🇭 PH,🇵🇰 PK,🇷🇺 RU,🇸🇦 SA,🇸🇬 SG,🇹🇭 TH,🇹🇷 TR,🇹🇼 TW,🇺🇦 UA,🇬🇧 UK,🇺🇸 US,🇻🇳 VN,🌏 FF] }
+  - { name: 🫴 MANUAL, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🚘 AUTO,🔙 FALL,⏭️ SEL,🇦🇷 AR,🇭🇰 HK,🇮🇩 ID,🇯🇵 JP,🇳🇬 NG,🇷🇺 RU,🇸🇬 SG,🇹🇼 TW,🇬🇧 UK,🇺🇸 US,🌏 FF] }
   - { name: 🚘 AUTO, type: url-test, tolerance: 30, max-failed-times: 3, <<: [*proxyGroupsFiltered,*healthProxies] }
   - { name: 🔙 FALL, type: fallback, max-failed-times: 3, <<: [*proxyGroupsFiltered,*healthProxies] }
   - { name: ⏭️ SEL, type: fallback, max-failed-times: 3, <<: [*proxyGroupsSelected,*healthProxies] }
 
   - { name: 🇦🇷 AR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇦🇷|阿根廷|argentina }
-  - { name: 🇦🇺 AU,<<: *proxyGroupsInclude, type: select, filter: (?i)🇦🇺|澳大利亚|澳大利亞|australia }
-  - { name: 🇧🇷 BR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇧🇷|巴西|brazil }
-  - { name: 🇨🇦 CA,<<: *proxyGroupsInclude, type: select, filter: (?i)🇨🇦|加拿大|canada }
-  - { name: 🇩🇪 DE,<<: *proxyGroupsInclude, type: select, filter: (?i)🇩🇪|德国|德國|柏林|慕尼黑|germany }
-  - { name: 🇪🇬 EG,<<: *proxyGroupsInclude, type: select, filter: (?i)🇪🇬|埃及|egypt }
-  - { name: 🇫🇷 FR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇫🇷|法国|法國|福兰克|福蘭克|french }
   - { name: 🇭🇰 HK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇭🇰|香港|hongkong }
-  - { name: 🇮🇩 ID,<<: *proxyGroupsInclude, type: select, filter: (?i)🇮🇩|印尼|indonesia }
-  - { name: 🇮🇳 IN,<<: *proxyGroupsInclude, type: select, filter: (?i)🇮🇳|印度|india }
   - { name: 🇯🇵 JP,<<: *proxyGroupsInclude, type: select, filter: (?i)🇯🇵|日本|japan }
-  - { name: 🇰🇵 KP,<<: *proxyGroupsInclude, type: select, filter: (?i)🇰🇵|朝鲜|朝鮮 }
-  - { name: 🇰🇷 KR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇰🇷|韩国|韓國 }
-  - { name: 🇲🇴 MA,<<: *proxyGroupsInclude, type: select, filter: (?i)🇲🇴|澳门|澳門|maco }
-  - { name: 🇲🇽 MX,<<: *proxyGroupsInclude, type: select, filter: (?i)🇲🇽|墨西哥|mexico }
-  - { name: 🇲🇾 MY,<<: *proxyGroupsInclude, type: select, filter: (?i)🇲🇾|马来西亚|馬來西亞|malaysia }
   - { name: 🇳🇬 NG,<<: *proxyGroupsInclude, type: select, filter: (?i)🇳🇬|尼日利亚|nigeria }
-  - { name: 🇳🇱 NL,<<: *proxyGroupsInclude, type: select, filter: (?i)🇳🇱|荷兰|荷蘭|netherlands }
-  - { name: 🇳🇿 NZ,<<: *proxyGroupsInclude, type: select, filter: (?i)🇳🇿|新西兰|新西蘭|zeeland }
-  - { name: 🇵🇭 PH,<<: *proxyGroupsInclude, type: select, filter: (?i)🇵🇭|菲律宾|菲律賓|philippines }
-  - { name: 🇵🇰 PK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇵🇰|巴基斯坦|pakistan }
   - { name: 🇷🇺 RU,<<: *proxyGroupsInclude, type: select, filter: (?i)🇷🇺|俄罗斯|俄羅斯|russia }
-  - { name: 🇸🇦 SA,<<: *proxyGroupsInclude, type: select, filter: (?i)🇸🇦|沙特|arabia }
   - { name: 🇸🇬 SG,<<: *proxyGroupsInclude, type: select, filter: (?i)🇸🇬|新加坡|狮城|獅城|singapore }
-  - { name: 🇹🇭 TH,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇭|泰国|泰國|Thailand }
-  - { name: 🇹🇷 TR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇷|土耳其|turkey }
   - { name: 🇹🇼 TW,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇼|台湾|臺灣|taiwan }
-  - { name: 🇺🇦 UA,<<: *proxyGroupsInclude, type: select, filter: (?i)🇺🇦|乌克兰|烏克蘭|ukrainian }
-  - { name: 🇬🇧 UK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇬🇧|英|英國|england|kingdom|britsh }
+  - { name: 🇬🇧 UK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇬🇧|英|英國|伦敦|england|kingdom|britsh }
   - { name: 🇺🇸 US,<<: *proxyGroupsInclude, type: select, filter: (?i)🇺🇸|美国|美國|西雅图|西雅圖|洛杉矶|洛杉磯|艾斯本|america|states|seattle|angeles|ashburn }
-  - { name: 🇻🇳 VN,<<: *proxyGroupsInclude, type: select, filter: (?i)🇻🇳|越南|vietnam }
   - { name: 🌏 FF,<<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
 
   - { name: 🔊 ADS, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🫴 MANUAL] }
@@ -317,8 +296,10 @@ rules:
   - IP-CIDR,101.101.101.101/32,🌐 DIRECT,no-resolve
   - GEOSITE,private,🌐 DIRECT
   - GEOSITE,cn,🌐 DIRECT
+  #- DOMAIN-SUFFIX,linux.do,🌐 DIRECT
   - DOMAIN-SUFFIX,right.com.cn,🌐 DIRECT
   - DOMAIN-SUFFIX,rustdesk.com,🌐 DIRECT
+  - DOMAIN-SUFFIX,dell.com,🌐 DIRECT
   - PROCESS-PATH-REGEX,.*rustdesk,🌐 DIRECT
   - AND,((DOMAIN,hf.co),(DST-PORT,22)),🌐 DIRECT
   - GEOSITE,geolocation-!cn,🪜 Proxy
