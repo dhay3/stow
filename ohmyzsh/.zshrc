@@ -6,10 +6,8 @@
 #Start Tmux as the default Shell for user
 if [[ -x "$(command -v tmux)" ]] && [[ -n "${PS1}" ]] && [[ -z "${TMUX}" ]]; then
     case "$(readlink -f /proc/${PPID}/exe)" in
-    *dolphin* | *jetbrain* | *plasmashell* | *konsole*) ;;
-    *)
-        exec tmux
-        ;;
+    *dolphin* | *jetbrain* | *visual-studio-code* | *cursor* | *antigravity* | *docker* | *plasmashell* | *konsole* | *octopi*) ;;
+    *) exec tmux ;;
     esac
 fi
 
@@ -42,13 +40,13 @@ fi
 #######################################################################
 #TERM=xterm-256color
 # Theme
-ZSH_THEME="half-life"
+export ZSH_THEME="half-life"
 #ZSH_THEME="bira"
 
 # History Settings
-HISTFILE=~/.zhistory
-HISTSIZE=4096
-SAVEHIST=4096
+export HISTFILE=~/.zhistory
+export HISTSIZE=4096
+export SAVEHIST=4096
 #export SSLKEYLOGFILE=/tmp/keylogfile.txt
 
 # Enviroment Virables
@@ -63,6 +61,7 @@ export LANG=en_US.UTF-8
 export FZF_BASE=/usr/share/fzf
 # Set w3m as the default browser for web-search plugin
 export BROWSER="w3m"
+export GEMINI_API_KEY=""
 
 #######################################################################
 # Plugins
@@ -128,7 +127,13 @@ fi
 # Custom scripts
 #######################################################################
 #fastfetch
-[[ ! "$(readlink -f /proc/${PPID}/exe)" =~ "jetbrain" ]] && [[ -z "${ASCIINEMA_REC}" ]] && [[ -x "$(command -v fastfetch)" ]] && fastfetch --disable-linewrap
+
+if [[ -z "${ASCIINEMA_REC}" ]] && [[ -x "$(command -v fastfetch)" ]];then
+    case "$(readlink -f /proc/${PPID}/exe)" in
+    *dolphin* | *jetbrain* | *visual-studio-code* | *cursor* | *antigravity* | *docker* | *plasmashell* | *konsole* ) ;;
+    *) fastfetch --disable-linewrap ;;
+    esac
+fi
 
 # Print a new line after command excuted
 precmd() {
@@ -185,7 +190,7 @@ bindkey -M main '^[^[' sudo-command-line
 #######################################################################
 # >>>> Built-in aliases (start)
 alias c='clear'
-alias ls='lsd'
+alias ls='lsd --group-directories-first'
 alias ll='ls -l'
 alias la='ls -a'
 alias lt='ls --tree'
@@ -233,9 +238,11 @@ alias nc='ncat'
 #alias jq='jq -C'
 alias lynx='lynx -display_charset=utf-8'
 alias gitm='gitmoji'
-alias lg='lazygit'
-alias w3m='w3m https://duckduckgo.com'
+alias lzg='lazygit'
+alias lzd='lazydocker'
 alias fzf='fzf --reverse --border --highlight-line'
+alias sz='lrzsz-sz'
+alias rz='lrzsz-rz'
 alias trz='trans zh:en'
 alias tre='trans en:zh'
 alias shc='steghide embed'
@@ -247,24 +254,30 @@ alias vag='vagrant'
 alias geeq='geeqie'
 alias gshark='wireshark'
 alias typo='typora'
+alias gh='env BROWSER=zen-browser gh'
+alias ntrace='nexttrace'
 #alias yy='yazi'
 alias vim='nvim'
 alias wbs='web_search duckduckgo'
 alias ytd='yt-dlp'
 alias rdm='remotedesktopmanager'
-alias xfreerdp='xfreerdp /cert:tofu /fonts /bpp:64 /video /dynamic-resolution /scale:140 /scale-desktop:125'
+alias xfreerdp='xfreerdp3'
+alias wlfreerdp='wlfreerdp3'
+alias zero-cli='zerotier-cli'
+# Tell the application is Xorg(XWayland) or Wayland
+alias wway='qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole'
 # Alias for logout KDE plasma with cancel menu
-alias logout="qdbus org.kde.LogoutPrompt /LogoutPrompt org.kde.LogoutPrompt.promptLogout"
-alias icat="kitten icat"
-alias issh="kitten ssh"
+alias logout='qdbus org.kde.LogoutPrompt /LogoutPrompt org.kde.LogoutPrompt.promptLogout'
+alias icat='kitten icat'
+alias issh='kitten ssh'
 # <<<< Extra aliases (end)
 
 # >>>> File assosicated aliases (start)
 alias -s {json,yaml,yml,txt}=subl
 alias -s {mp4,webm,avi}=vlc
 alias -s {png,jpeg,jpg}=geeqie
-alias -s {xlsx,cvs}=libreoffice --calc
-alias -s docs=libreoffice --writer
+alias -s {xlsx,cvs,ods}=libreoffice --calc
+alias -s {doc,docs}=libreoffice --writer
 alias -s ppt=libreoffce --impress
 alias -s pdf=okular
 alias -s md=typora
@@ -272,5 +285,6 @@ alias -s html=zen-browser
 # <<<< File assosicated aliases (end)
 
 # Crack jetbrains' IDE
-___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"
-if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
+___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
+autoload -U +X bashcompinit && bashcompinit
+complete -o default -C /usr/bin/ipinfo ipinfo
