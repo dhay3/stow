@@ -7,11 +7,22 @@
 # emoji wiki https://emojis.wiki
 # ISO 3166 https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
 
-
 #>>> Yaml Aliases Start >>>
 gneral-options:
-  healthProviders: &healthProviders { url: http://www.gstatic.com/generate_204, lazy: true, interval: 600, timeout: 3000 }
-  healthProxies: &healthProxies { url: http://www.gstatic.com/generate_204, lazy: true, interval: 300, timeout: 5000 }
+  healthProviders:
+    &healthProviders {
+      url: https://www.gstatic.com/generate_204,
+      lazy: true,
+      interval: 600,
+      timeout: 3000,
+    }
+  healthProxies:
+    &healthProxies {
+      url: https://www.gstatic.com/generate_204,
+      lazy: true,
+      interval: 300,
+      timeout: 5000,
+    }
 
 proxy-providers-options:
   proxyProvidersCommon: &proxyProvidersCommon
@@ -37,28 +48,74 @@ proxy-groups-options:
       - example2
       - example3
     <<: *proxyGroupsCommon
-  proxyGroupsFiltered: &proxyGroupsFiltered { proxies: [🇦🇷 AR,🇭🇰 HK,🇮🇩 ID,🇯🇵 JP,🇳🇬 NG,🇷🇺 RU,🇸🇬 SG,🇹🇼 TW,🇹🇷 TR,🇬🇧 UK,🇺🇸 US,🌏 FF] }
-  proxyGroupsSelected: &proxyGroupsSelected { proxies: [🇸🇬 SG,🇺🇸 US] }
-  proxyGroupsCombined: &proxyGroupsCombined { proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🫴 MANUAL,🚘 AUTO,🔙 FALL,⏭️ SEL,🇦🇷 AR,🇭🇰 HK,🇮🇩 ID,🇯🇵 JP,🇳🇬 NG,🇷🇺 RU,🇸🇬 SG,🇹🇼 TW,🇹🇷 TR,🇬🇧 UK,🇺🇸 US,🌏 FF] }
+  proxyGroupsFiltered:
+    &proxyGroupsFiltered {
+      proxies:
+        [
+          🇦🇷 AR,
+          🇭🇰 HK,
+          🇮🇩 ID,
+          🇯🇵 JP,
+          🇳🇬 NG,
+          🇷🇺 RU,
+          🇸🇬 SG,
+          🇹🇼 TW,
+          🇹🇷 TR,
+          🇬🇧 UK,
+          🇺🇸 US,
+          🌏 FF,
+        ],
+    }
+  proxyGroupsSelected: &proxyGroupsSelected { proxies: [🇸🇬 SG, 🇺🇸 US] }
+  proxyGroupsCombined:
+    &proxyGroupsCombined {
+      proxies:
+        [
+          🌐 DIRECT,
+          🚫 REJECT,
+          🧅 TOR,
+          🫴 MANUAL,
+          🚘 AUTO,
+          🔙 FALL,
+          ⏭️ SEL,
+          🇦🇷 AR,
+          🇭🇰 HK,
+          🇮🇩 ID,
+          🇯🇵 JP,
+          🇳🇬 NG,
+          🇷🇺 RU,
+          🇸🇬 SG,
+          🇹🇼 TW,
+          🇹🇷 TR,
+          🇬🇧 UK,
+          🇺🇸 US,
+          🌏 FF,
+        ],
+    }
 
-rule-providers-options:
-  ruleProvidersCommon: &ruleProvidersCommon { type: http, format: yaml, interval: 10368000 }
+providers-options:
+  proxyProvidersCommon: &proxyProvidersCommon
+  ruleProvidersCommon:
+    &ruleProvidersCommon {
+      type: http,
+      behavior: classical,
+      format: yaml,
+      interval: 86400,
+    }
 #<<< Yaml Aliases End <<<
 
 #>>> Genernal Configuration Start >>>
-# Do not use default port for security concern
-bind-address: '*'
+bind-address: "*"
 mixed-port: 37897
-redir-port: 37898
-tproxy-port: 37899
-external-controller: 0.0.0.0:9090
-log-level: silent
+external-controller: 127.0.0.1:9000
+external-ui: ui
+external-ui-url: https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip
+log-level: info
 allow-lan: false
 ipv6: false
 unified-delay: true
 tcp-concurrent: true
 keep-alive-interval: 300
-global-client-fingerprint: random
 global-ua: clash.meta
 profile:
   store-selected: true
@@ -68,12 +125,11 @@ profile:
 #>>> GEO Configuration Start >>>
 geodata-loader: standard
 geo-auto-update: true
-geo-update-interval: 168
+geo-update-interval: 24
 geox-url:
-  geoip: https://hub.gitmirror.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
-  geosite: https://hub.gitmirror.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
-  mmdb: https://hub.gitmirror.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb
-  asn: https://hub.gitmirror.com/https://github.com/xishang0128/geoip/releases/download/latest/GeoLite2-ASN.mmdb
+  geoip: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
+  geosite: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
+  mmdb: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb
 #<<< GEO Configuration End <<<
 
 #>>> DNS Configuration Start >>>
@@ -93,6 +149,7 @@ dns:
   use-system-hosts: true
   enhanced-mode: fake-ip
   fake-ip-range: 100.64.0.1/10
+  fake-ip-filter-mode: blacklist
   fake-ip-filter:
     - geosite:private
     - geosite:cn
@@ -119,6 +176,11 @@ dns:
     geoip: true
     geoip-code: CN
 #<<< DNS Configuration End <<<
+
+#>>> Hosts Configuration End >>>
+hosts:
+  "localhost": 127.0.0.1
+#<<< Hosts Configuration End <<<
 
 #>>> Domain Sniffing Configuration Start >>>
 sniffer:
@@ -177,51 +239,148 @@ proxy-providers:
   XiongMao:
     <<:
       - *proxyProvidersCommon
-      - *proxyProvidersProxy
-    url: https://example1.com
-    path: ./proxy_providers/example1.yaml
+    url: https://example1.org
+    path: ./proxy_providers/example1
+  LinkCube:
+    <<:
+      - *proxyProvidersCommon
+    url: https://example2.org
+    path: ./proxy_providers/example2
   YiYun:
     <<:
       - *proxyProvidersCommon
       - *proxyProvidersProxy
-    url: https://example2.com
-    path: ./proxy_providers/example2.yaml
-  YToo:
-    <<:
-      - *proxyProvidersCommon
-      - *proxyProvidersProxy
-    url: https://example3.com
-    path: ./proxy_providers/example3.yaml
+    url: https://example3.org
+    path: ./proxy_providers/example3
 #<<< Proxy Providers Configuration End <<<
 
 #>>> Proxies Configuration Start >>>
 # TUN must be enabled when use the TOR proxy
-proxies: [ { name: 🧅 TOR, type: socks5, server: 127.0.0.1, port: 9050, udp: true, ip-version: ipv4 } ]
+proxies:
+  [
+    {
+      name: 🧅 TOR,
+      type: socks5,
+      server: 127.0.0.1,
+      port: 9050,
+      udp: true,
+      ip-version: ipv4,
+    },
+  ]
 #<<< Proxies Configuration End <<<
 
 #>>> Proxy Groups(Policy) Configuration Start >>>
 proxy-groups:
-
   - { name: 🌐 DIRECT, type: select, proxies: [DIRECT] }
   - { name: 🚫 REJECT, type: select, proxies: [REJECT] }
-  - { name: 🫴 MANUAL, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🧅 TOR,🚘 AUTO,🔙 FALL,⏭️ SEL,🇦🇷 AR,🇭🇰 HK,🇮🇩 ID,🇯🇵 JP,🇳🇬 NG,🇷🇺 RU,🇸🇬 SG,🇹🇼 TW,🇹🇷 TR,🇬🇧 UK,🇺🇸 US,🌏 FF] }
-  - { name: 🚘 AUTO, type: url-test, tolerance: 30, max-failed-times: 3, <<: [*proxyGroupsFiltered,*healthProxies] }
-  - { name: 🔙 FALL, type: fallback, max-failed-times: 3, <<: [*proxyGroupsFiltered,*healthProxies] }
-  - { name: ⏭️ SEL, type: fallback, max-failed-times: 3, <<: [*proxyGroupsSelected,*healthProxies] }
+  - {
+      name: 🫴 MANUAL,
+      type: select,
+      proxies:
+        [
+          🌐 DIRECT,
+          🚫 REJECT,
+          🧅 TOR,
+          🚘 AUTO,
+          🔙 FALL,
+          ⏭️ SEL,
+          🇦🇷 AR,
+          🇭🇰 HK,
+          🇮🇩 ID,
+          🇯🇵 JP,
+          🇳🇬 NG,
+          🇷🇺 RU,
+          🇸🇬 SG,
+          🇹🇼 TW,
+          🇹🇷 TR,
+          🇬🇧 UK,
+          🇺🇸 US,
+          🌏 FF,
+        ],
+    }
+  - {
+      name: 🚘 AUTO,
+      type: url-test,
+      tolerance: 30,
+      max-failed-times: 3,
+      <<: [*proxyGroupsFiltered, *healthProxies],
+    }
+  - {
+      name: 🔙 FALL,
+      type: fallback,
+      max-failed-times: 3,
+      <<: [*proxyGroupsFiltered, *healthProxies],
+    }
+  - {
+      name: ⏭️ SEL,
+      type: fallback,
+      max-failed-times: 3,
+      <<: [*proxyGroupsSelected, *healthProxies],
+    }
 
-  - { name: 🇦🇷 AR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇦🇷|阿根廷|argentina }
-  - { name: 🇭🇰 HK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇭🇰|香港|hongkong }
-  - { name: 🇯🇵 JP,<<: *proxyGroupsInclude, type: select, filter: (?i)🇯🇵|日本|japan }
-  - { name: 🇳🇬 NG,<<: *proxyGroupsInclude, type: select, filter: (?i)🇳🇬|尼日利亚|nigeria }
-  - { name: 🇷🇺 RU,<<: *proxyGroupsInclude, type: select, filter: (?i)🇷🇺|俄罗斯|俄羅斯|russia }
-  - { name: 🇸🇬 SG,<<: *proxyGroupsInclude, type: select, filter: (?i)🇸🇬|新加坡|狮城|獅城|singapore }
-  - { name: 🇹🇼 TW,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇼|台湾|臺灣|taiwan }
-  - { name: 🇹🇷 TR,<<: *proxyGroupsInclude, type: select, filter: (?i)🇹🇷|土耳其|turkey }
-  - { name: 🇬🇧 UK,<<: *proxyGroupsInclude, type: select, filter: (?i)🇬🇧|英|英國|伦敦|england|kingdom|britsh }
-  - { name: 🇺🇸 US,<<: *proxyGroupsInclude, type: select, filter: (?i)🇺🇸|美国|美國|西雅图|西雅圖|洛杉矶|洛杉磯|艾斯本|america|states|seattle|angeles|ashburn }
-  - { name: 🌏 FF,<<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
+  - {
+      name: 🇦🇷 AR,
+      <<: *proxyGroupsInclude,
+      type: select,
+      filter: (?i)🇦🇷|阿根廷|argentina,
+    }
+  - {
+      name: 🇭🇰 HK,
+      <<: *proxyGroupsInclude,
+      type: select,
+      filter: (?i)🇭🇰|香港|hongkong,
+    }
+  - {
+      name: 🇯🇵 JP,
+      <<: *proxyGroupsInclude,
+      type: select,
+      filter: (?i)🇯🇵|日本|japan,
+    }
+  - {
+      name: 🇳🇬 NG,
+      <<: *proxyGroupsInclude,
+      type: select,
+      filter: (?i)🇳🇬|尼日利亚|nigeria,
+    }
+  - {
+      name: 🇷🇺 RU,
+      <<: *proxyGroupsInclude,
+      type: select,
+      filter: (?i)🇷🇺|俄罗斯|俄羅斯|russia,
+    }
+  - {
+      name: 🇸🇬 SG,
+      <<: *proxyGroupsInclude,
+      type: select,
+      filter: (?i)🇸🇬|新加坡|狮城|獅城|singapore,
+    }
+  - {
+      name: 🇹🇼 TW,
+      <<: *proxyGroupsInclude,
+      type: select,
+      filter: (?i)🇹🇼|台湾|臺灣|taiwan,
+    }
+  - {
+      name: 🇹🇷 TR,
+      <<: *proxyGroupsInclude,
+      type: select,
+      filter: (?i)🇹🇷|土耳其|turkey,
+    }
+  - {
+      name: 🇬🇧 UK,
+      <<: *proxyGroupsInclude,
+      type: select,
+      filter: (?i)🇬🇧|英|英國|伦敦|england|kingdom|britsh,
+    }
+  - {
+      name: 🇺🇸 US,
+      <<: *proxyGroupsInclude,
+      type: select,
+      filter: (?i)🇺🇸|美国|美國|西雅图|西雅圖|洛杉矶|洛杉磯|艾斯本|america|states|seattle|angeles|ashburn,
+    }
+  - { name: 🌏 FF, <<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
 
-  - { name: 🔊 ADS, type: select, proxies: [🌐 DIRECT,🚫 REJECT,🫴 MANUAL] }
+  - { name: 🔊 ADS, type: select, proxies: [🌐 DIRECT, 🚫 REJECT, 🫴 MANUAL] }
   - { name: 🤖 AI, type: select, <<: *proxyGroupsCombined }
   - { name: 🍎 Apple, type: select, <<: *proxyGroupsCombined }
   - { name: 🦉 Google, type: select, <<: *proxyGroupsCombined }
@@ -238,72 +397,165 @@ proxy-groups:
   - { name: 👂 Spotify, type: select, <<: *proxyGroupsCombined }
   - { name: 🪙 Crypto, type: select, <<: *proxyGroupsCombined }
   - { name: 🀄 Manchuria, type: select, <<: *proxyGroupsCombined }
-  - { name: 🔄 Alter, type: select, <<: *proxyGroupsCombined }
   - { name: 🪜 Proxy, type: select, <<: *proxyGroupsCombined }
   - { name: 🐟 Leakage, type: select, <<: *proxyGroupsCombined }
 #<<< Proxy Groups(Policy) Configuration End <<<
 
 #>>> Rule Providers Configuration Start >>>
-# https://github.com/Loyalsoldier/clash-rules
 # https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash
-#rule-providers:
-#  claude:
-#    <<: *ruleProvidersCommon
-#    behavior: domain
-#    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Claude/Claude.yaml
-#    path: ./ruleset/Claude.yaml
+rule-providers:
+  ads:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Advertising/Advertising.yaml
+    path: ./ruleset/ads.yaml
+  ipinfo:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Speedtest/Speedtest.yaml
+    path: ./ruleset/ipinfo.yaml
+  google:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Google/Google.yaml
+    path: ./ruleset/google.yaml
+  youtube:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/YouTube/YouTube.yaml
+    path: ./ruleset/youtube.yaml
+  netflix:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Netflix/Netflix.yaml
+    path: ./ruleset/netflix.yaml
+  disney:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Disney/Disney.yaml
+    path: ./ruleset/disney.yaml
+  hbo:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/HBO/HBO.yaml
+    path: ./ruleset/hbo.yaml
+  openai:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI.yaml
+    path: ./ruleset/openai.yaml
+  anthropic:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Anthropic/Anthropic.yaml
+    path: ./ruleset/anthropic.yaml
+  gemini:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Gemini/Gemini.yaml
+    path: ./ruleset/gemini.yaml
+  twitch:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Twitch/Twitch.yaml
+    path: ./ruleset/twitch.yaml
+  twitter:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Twitter/Twitter.yaml
+    path: ./ruleset/twitter.yaml
+  telegram:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Telegram/Telegram.yaml
+    path: ./ruleset/telegram.yaml
+  spotify:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Spotify/Spotify.yaml
+    path: ./ruleset/spotify.yaml
+  microsoft:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft.yaml
+    path: ./ruleset/microsoft.yaml
+  apple:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Apple/Apple.yaml
+    path: ./ruleset/apple.yaml
+  steam:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Steam/Steam.yaml
+    path: ./ruleset/steam.yaml
+  binance:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@release/rule/Clash/Binance/Binance.yaml
+    path: ./ruleset/binance.yaml
+  okx:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@release/rule/Clash/OKX/OKX.yaml
+    path: ./ruleset/okx.yaml
+  bilibili:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/BiliBili/BiliBili.yaml
+    path: ./ruleset/bilibili.yaml
+  zhihu:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Zhihu/Zhihu.yaml
+    path: ./ruleset/zhihu.yaml
+  douban:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/DouBan/DouBan.yaml
+    path: ./ruleset/douban.yaml
+  smzdm:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/SMZDM/SMZDM.yaml
+    path: ./ruleset/smzdm.yaml
+  cn:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/China/China.yaml
+    path: ./ruleset/cn.yaml
+  proxy:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Proxy/Proxy.yaml
+    path: ./ruleset/proxy.yaml
 #<<< Rule Providers Configuration End <<<
 
 #>>> Rules Configuration End >>>
 rules:
+  - RULE-SET,ads,🔊 ADS
   - GEOSITE,category-ads-all,🔊 ADS
+  - RULE-SET,ipinfo,📈 IPinfo
   - DOMAIN,check.torproject.org,📈 IPinfo
-  - DOMAIN,speed.cloudflare.com,📈 IPinfo
-  - DOMAIN,fast.com,📈 IPinfo
+  - DOMAIN-SUFFIX,ip.sb,📈 IPinfo
   - DOMAIN-SUFFIX,myip.la,📈 IPinfo
   - DOMAIN-SUFFIX,ipip.net,📈 IPinfo
   - DOMAIN-SUFFIX,ipinfo.io,📈 IPinfo
-  - GEOSITE,speedtest,📈 IPinfo
-  - GEOSITE,google,🦉 Google
-  - GEOSITE,youtube,🧪 YouTube
-  - GEOSITE,netflix,🥅 Netflix
-  - GEOSITE,disney,🐭 Disney
-  - GEOSITE,hbo,👌 HBO
-  - GEOSITE,openai,🤖 AI
-  - GEOSITE,anthropic,🤖 AI
-  - GEOSITE,google-gemini,🤖 AI
-  - GEOSITE,twitch,🧙🏿‍♀️ Twitch
-  - GEOSITE,twitter,🐦 Twitter
-  - GEOSITE,telegram,📲 Telegram
-  - GEOSITE,spotify,👂 Spotify
-  - GEOSITE,microsoft@cn,🔄 Alter
-  - GEOSITE,microsoft,🪟 Microsoft
-  - GEOSITE,apple@cn,🔄 Alter
-  - GEOSITE,apple,🍎 Apple
-  - GEOSITE,steam@cn,🔄 Alter
-  - GEOSITE,steam,🚂 Steam
+  - RULE-SET,youtube,🧪 YouTube
+  - RULE-SET,netflix,🥅 Netflix
+  - RULE-SET,disney,🐭 Disney
+  - RULE-SET,hbo,👌 HBO
+  - RULE-SET,openai,🤖 AI
+  - RULE-SET,anthropic,🤖 AI
+  - RULE-SET,gemini,🤖 AI
+  - RULE-SET,twitch,🧙🏿‍♀️ Twitch
+  - RULE-SET,twitter,🐦 Twitter
+  - RULE-SET,telegram,📲 Telegram
+  - RULE-SET,google,🦉 Google
+  - RULE-SET,spotify,👂 Spotify
+  - RULE-SET,microsoft,🪟 Microsoft
+  - RULE-SET,apple,🍎 Apple
+  - RULE-SET,steam,🚂 Steam
   - GEOSITE,bybit,🪙 Crypto
-  - GEOSITE,binance,🪙 Crypto
-  - GEOSITE,okx,🪙 Crypto
+  - RULE-SET,binance,🪙 Crypto
+  - RULE-SET,okx,🪙 Crypto
   - GEOSITE,redotpay,🪙 Crypto
-  - GEOSITE,bilibili,🀄 Manchuria
-  - GEOSITE,zhihu,🀄 Manchuria
-  - GEOSITE,douban,🀄 Manchuria
-  - GEOSITE,smzdm,🀄 Manchuria
-  - GEOIP,PRIVATE,🌐 DIRECT,no-resolve
-  - GEOIP,CN,🌐 DIRECT,no-resolve
+  - RULE-SET,bilibili,🀄 Manchuria
+  - RULE-SET,zhihu,🀄 Manchuria
+  - RULE-SET,douban,🀄 Manchuria
+  - RULE-SET,smzdm,🀄 Manchuria
+  - GEOSITE,private,🌐 DIRECT
+  - RULE-SET,cn,🌐 DIRECT
   - DOMAIN-SUFFIX,cn,🌐 DIRECT
   - DOMAIN-KEYWORD,-cn,🌐 DIRECT
+  - DOMAIN-KEYWORD,rustdesk,🌐 DIRECT
+  - DOMAIN-KEYWORD,dell,🌐 DIRECT
+  - DOMAIN-SUFFIX,right.com.cn,🌐 DIRECT
+
   - IP-CIDR,9.9.9.9/32,🌐 DIRECT,no-resolve
   - IP-CIDR,101.101.101.101/32,🌐 DIRECT,no-resolve
-  - GEOSITE,private,🌐 DIRECT
-  - GEOSITE,cn,🌐 DIRECT
-  #- DOMAIN-SUFFIX,linux.do,🌐 DIRECT
-  - DOMAIN-SUFFIX,right.com.cn,🌐 DIRECT
-  - DOMAIN-SUFFIX,rustdesk.com,🌐 DIRECT
-  - DOMAIN-SUFFIX,dell.com,🌐 DIRECT
+  - GEOIP,PRIVATE,🌐 DIRECT,no-resolve
+  - GEOIP,CN,🌐 DIRECT,no-resolve
+
   - PROCESS-PATH-REGEX,.*rustdesk,🌐 DIRECT
   - AND,((DOMAIN,hf.co),(DST-PORT,22)),🌐 DIRECT
+
+  - RULE-SET,proxy,🪜 Proxy
   - GEOSITE,geolocation-!cn,🪜 Proxy
   - MATCH,🐟 Leakage
 #<<< Rules Configuration End <<<
