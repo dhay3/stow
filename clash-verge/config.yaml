@@ -62,7 +62,9 @@ proxy-groups-options:
           🇹🇷 TR,
           🇬🇧 UK,
           🇺🇸 US,
-          🌏 FF,
+          🌏 C1,
+          🌏 C2,
+          🌏 C3,
         ],
     }
   proxyGroupsSelected: &proxyGroupsSelected { proxies: [🇸🇬 SG, 🇺🇸 US] }
@@ -88,7 +90,9 @@ proxy-groups-options:
           🇹🇷 TR,
           🇬🇧 UK,
           🇺🇸 US,
-          🌏 FF,
+          🌏 C1,
+          🌏 C2,
+          🌏 C3,
         ],
     }
 
@@ -301,7 +305,9 @@ proxy-groups:
           🇹🇷 TR,
           🇬🇧 UK,
           🇺🇸 US,
-          🌏 FF,
+          🌏 C1,
+          🌏 C2,
+          🌏 C3,
         ],
     }
   - {
@@ -384,7 +390,9 @@ proxy-groups:
       type: select,
       filter: (?i)🇺🇸|美国|美國|西雅图|西雅圖|洛杉矶|洛杉磯|艾斯本|america|states|seattle|angeles|ashburn,
     }
-  - { name: 🌏 FF, <<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
+  - { name: 🌏 C1, <<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
+  - { name: 🌏 C2, <<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
+  - { name: 🌏 C3, <<: *proxyGroupsInclude, type: select, exclude-filter: 🧅 }
 
   - { name: 🔊 ADS, type: select, proxies: [🌐 DIRECT, 🚫 REJECT, 🫴 MANUAL] }
   - { name: 🤖 AI, type: select, <<: *proxyGroupsCombined }
@@ -486,22 +494,18 @@ rule-providers:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@release/rule/Clash/OKX/OKX.yaml
     path: ./ruleset/okx.yaml
-  bilibili:
+  wechat:
     <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/BiliBili/BiliBili.yaml
-    path: ./ruleset/bilibili.yaml
-  zhihu:
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/WeChat/WeChat.yaml
+    path: ./ruleset/wechat.yaml
+  xhs:
     <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Zhihu/Zhihu.yaml
-    path: ./ruleset/zhihu.yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/XiaoHongShu/XiaoHongShu.yaml
+    path: ./ruleset/xhs.yaml
   douban:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/DouBan/DouBan.yaml
     path: ./ruleset/douban.yaml
-  smzdm:
-    <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/SMZDM/SMZDM.yaml
-    path: ./ruleset/smzdm.yaml
   cn:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/China/China.yaml
@@ -541,10 +545,9 @@ rules:
   - RULE-SET,binance,🪙 Crypto
   - RULE-SET,okx,🪙 Crypto
   - GEOSITE,redotpay,🪙 Crypto
-  - RULE-SET,bilibili,🀄 Manchuria
-  - RULE-SET,zhihu,🀄 Manchuria
+  - RULE-SET,wechat,🀄 Manchuria
+  - RULE-SET,xhs,🀄 Manchuria
   - RULE-SET,douban,🀄 Manchuria
-  - RULE-SET,smzdm,🀄 Manchuria
   - GEOSITE,private,🌐 DIRECT
   - RULE-SET,cn,🌐 DIRECT
   - DOMAIN-SUFFIX,cn,🌐 DIRECT
