@@ -1,12 +1,13 @@
 # yay -S rime-ice-double-pinyin-git
 # uU 启用 radical 拼音
 patch:
+  "switches/@0/reset": 1
   translator/preedit_format: []
   # Ambiguous Spell
   speller/algebra:
     - erase/^xx$/
     - derive/^([jqxy])u$/$1v/
-    - derive/^([aoe])([ioun])$/$1$1$2/ 
+    - derive/^([aoe])([ioun])$/$1$1$2/
     - derive/^([zcs])h/$1/
     - derive/^([zcs])([^h])/$1h$2/
     # - derive/eng$/en/
@@ -69,9 +70,8 @@ patch:
       # Toggle options
       - { when: always, accept: Control+Shift+space, toggle: ascii_mode }
       - { when: always, accept: Control+Shift+less, toggle: full_shape }
-      - { when: always, accept: Control+Shift+greater, toggle: ascii_punct} 
+      - { when: always, accept: Control+Shift+greater, toggle: ascii_punct }
       - { when: always, accept: Control+Shift+question, toggle: simplification }
 
       # Other
       - { when: composing, accept: Control+c, send: Escape }
-
