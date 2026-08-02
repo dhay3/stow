@@ -27,7 +27,6 @@ gneral-options:
 proxy-providers-options:
   proxyProvidersCommon: &proxyProvidersCommon
     type: http
-    interval: 3600
     health-check:
       enable: true
       <<: *healthProviders
@@ -236,22 +235,29 @@ tun:
 #>>> Proxy Providers Configuration Start >>>
 # Replace url with your subscription
 proxy-providers:
-  XiongMao:
+  example1:
     <<:
       - *proxyProvidersCommon
-    url: https://example1.org
-    path: ./proxy_providers/example1
-  LinkCube:
+    interval: 3600
+    url: https://raw.githubusercontent.com/example1/example1.yaml
+    path: ./proxy_providers/example1.yaml
+    header:
+      Accept:
+        - "application/vnd.github.raw+json"
+      Authorization:
+        - "Bearer token"
+  example2:
     <<:
       - *proxyProvidersCommon
     url: https://example2.org
-    path: ./proxy_providers/example2
-  YiYun:
+    path: ./proxy_providers/example2.yaml
+  example3:
     <<:
       - *proxyProvidersCommon
       - *proxyProvidersProxy
+    interval: 3600
     url: https://example3.org
-    path: ./proxy_providers/example3
+    path: ./proxy_providers/example3.yaml
 #<<< Proxy Providers Configuration End <<<
 
 #>>> Proxies Configuration Start >>>
