@@ -44,6 +44,8 @@ proxy-groups-options:
       proxies:
         [
           🇦🇷 AR,
+          🇦🇺 AU,
+          🇩🇪 DE,
           🇭🇰 HK,
           🇯🇵 JP,
           🇳🇬 NG,
@@ -71,6 +73,8 @@ proxy-groups-options:
           🔙 FALL,
           ⏭️ SEL,
           🇦🇷 AR,
+          🇦🇺 AU,
+          🇩🇪 DE,
           🇭🇰 HK,
           🇯🇵 JP,
           🇳🇬 NG,
@@ -87,10 +91,11 @@ proxy-groups-options:
     }
 
 bind-address: "*"
-mixed-port: 37897
-external-controller: 127.0.0.1:9000
-external-ui: ui
-external-ui-url: https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip
+external-controller: 0.0.0.0:9000
+external-controller-tls: 0.0.0.0:9443
+tls:
+  certificate: /etc/openclash/ssl/dashboard.crt
+  private-key: /etc/openclash/ssl/dashboard.key
 log-level: info
 allow-lan: false
 ipv6: false
@@ -230,6 +235,8 @@ proxy-groups:
           🔙 FALL,
           ⏭️ SEL,
           🇦🇷 AR,
+          🇦🇺 AU,
+          🇩🇪 DE,
           🇭🇰 HK,
           🇯🇵 JP,
           🇳🇬 NG,
@@ -269,6 +276,18 @@ proxy-groups:
       <<: *proxyGroupsInclude,
       type: select,
       filter: "(?i)🇦🇷|阿根廷|argentina",
+    }
+  - {
+      name: 🇦🇺 AU,
+      <<: *proxyGroupsInclude,
+      type: select,
+      filter: "(?i)🇦🇺|澳大利亚|澳大利亞|澳洲|悉尼|australia",
+    }
+  - {
+      name: 🇩🇪 DE,
+      <<: *proxyGroupsInclude,
+      type: select,
+      filter: "(?i)🇩🇪|德国|德國|柏林|慕尼黑|germany",
     }
   - {
       name: 🇭🇰 HK,
