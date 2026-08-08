@@ -498,10 +498,6 @@ rule-providers:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Steam/Steam.yaml
     path: ./ruleset/steam.yaml
-  ipinfo:
-    <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Speedtest/Speedtest.yaml
-    path: ./ruleset/ipinfo.yaml
   wechat:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/WeChat/WeChat.yaml
@@ -514,6 +510,10 @@ rule-providers:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/DouBan/DouBan.yaml
     path: ./ruleset/douban.yaml
+  ipinfo:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Speedtest/Speedtest.yaml
+    path: ./ruleset/ipinfo.yaml
   cn:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/China/China.yaml
