@@ -43,7 +43,7 @@ proxy-groups-options:
   proxyGroupsCommon:
     &proxyGroupsCommon { <<: *healthProxies, max-failed-times: 3 }
   proxyGroupsInclude:
-    &proxyGroupsInclude { include-all: true, <<: *proxyGroupsCommon}
+    &proxyGroupsInclude { include-all: true, <<: *proxyGroupsCommon }
   proxyGroupsUse:
     &proxyGroupsUse {
       use: [example1, example2, example3],
@@ -407,20 +407,21 @@ proxy-groups:
 
   - { name: 🔊 ADS, type: select, proxies: [🌐 DIRECT, 🚫 REJECT, 🫴 MANUAL] }
   - { name: 🤖 AI, type: select, <<: *proxyGroupsCombined }
-  - { name: 🍎 Apple, type: select, <<: *proxyGroupsCombined }
-  - { name: 🦉 Google, type: select, <<: *proxyGroupsCombined }
+  - { name: 🪙 Crypto, type: select, <<: *proxyGroupsCombined }
   - { name: 🧪 YouTube, type: select, <<: *proxyGroupsCombined }
   - { name: 🥅 Netflix, type: select, <<: *proxyGroupsCombined }
   - { name: 🐭 Disney, type: select, <<: *proxyGroupsCombined }
   - { name: 👌 HBO, type: select, <<: *proxyGroupsCombined }
   - { name: 🧙🏿‍♀️ Twitch, type: select, <<: *proxyGroupsCombined }
+  - { name: 👧 Porn, type: select, <<: *proxyGroupsCombined }
   - { name: 🐦 Twitter, type: select, <<: *proxyGroupsCombined }
   - { name: 📲 Telegram, type: select, <<: *proxyGroupsCombined }
-  - { name: 🚂 Steam, type: select, <<: *proxyGroupsCombined }
-  - { name: 🪟 Microsoft, type: select, <<: *proxyGroupsCombined }
-  - { name: 📈 IPinfo, type: select, <<: *proxyGroupsCombined }
   - { name: 👂 Spotify, type: select, <<: *proxyGroupsCombined }
-  - { name: 🪙 Crypto, type: select, <<: *proxyGroupsCombined }
+  - { name: 🦉 Google, type: select, <<: *proxyGroupsCombined }
+  - { name: 🪟 Microsoft, type: select, <<: *proxyGroupsCombined }
+  - { name: 🍎 Apple, type: select, <<: *proxyGroupsCombined }
+  - { name: 🚂 Steam, type: select, <<: *proxyGroupsCombined }
+  - { name: 📈 IPinfo, type: select, <<: *proxyGroupsCombined }
   - { name: 🀄 Manchuria, type: select, <<: *proxyGroupsCombined }
   - { name: 🪜 Proxy, type: select, <<: *proxyGroupsCombined }
   - { name: 🐟 Leakage, type: select, <<: *proxyGroupsCombined }
@@ -433,14 +434,22 @@ rule-providers:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Advertising/Advertising.yaml
     path: ./ruleset/ads.yaml
-  ipinfo:
+  openai:
     <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Speedtest/Speedtest.yaml
-    path: ./ruleset/ipinfo.yaml
-  google:
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI.yaml
+    path: ./ruleset/openai.yaml
+  anthropic:
     <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Google/Google.yaml
-    path: ./ruleset/google.yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Anthropic/Anthropic.yaml
+    path: ./ruleset/anthropic.yaml
+  gemini:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Gemini/Gemini.yaml
+    path: ./ruleset/gemini.yaml
+  crypto:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Crypto/Crypto.yaml
+    path: ./ruleset/crypto.yaml
   youtube:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/YouTube/YouTube.yaml
@@ -457,18 +466,6 @@ rule-providers:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/HBO/HBO.yaml
     path: ./ruleset/hbo.yaml
-  openai:
-    <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI.yaml
-    path: ./ruleset/openai.yaml
-  anthropic:
-    <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Anthropic/Anthropic.yaml
-    path: ./ruleset/anthropic.yaml
-  gemini:
-    <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Gemini/Gemini.yaml
-    path: ./ruleset/gemini.yaml
   twitch:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Twitch/Twitch.yaml
@@ -485,6 +482,10 @@ rule-providers:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Spotify/Spotify.yaml
     path: ./ruleset/spotify.yaml
+  google:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Google/Google.yaml
+    path: ./ruleset/google.yaml
   microsoft:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft.yaml
@@ -497,14 +498,10 @@ rule-providers:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Steam/Steam.yaml
     path: ./ruleset/steam.yaml
-  binance:
+  ipinfo:
     <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@release/rule/Clash/Binance/Binance.yaml
-    path: ./ruleset/binance.yaml
-  okx:
-    <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@release/rule/Clash/OKX/OKX.yaml
-    path: ./ruleset/okx.yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Speedtest/Speedtest.yaml
+    path: ./ruleset/ipinfo.yaml
   wechat:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/WeChat/WeChat.yaml
@@ -531,31 +528,29 @@ rule-providers:
 rules:
   - RULE-SET,ads,🔊 ADS
   - GEOSITE,category-ads-all,🔊 ADS
-  - RULE-SET,ipinfo,📈 IPinfo
-  - DOMAIN,check.torproject.org,📈 IPinfo
-  - DOMAIN-SUFFIX,ip.sb,📈 IPinfo
-  - DOMAIN-SUFFIX,myip.la,📈 IPinfo
-  - DOMAIN-SUFFIX,ipip.net,📈 IPinfo
-  - DOMAIN-SUFFIX,ipinfo.io,📈 IPinfo
+  - RULE-SET,openai,🤖 AI
+  - RULE-SET,anthropic,🤖 AI
+  - RULE-SET,gemini,🤖 AI
+  - GEOSITE,category-ai-!cn,🤖 AI
+  - RULE-SET,crypto,🪙 Crypto
+  - GEOSITE,category-cryptocurrency,🪙 Crypto
   - RULE-SET,youtube,🧪 YouTube
   - RULE-SET,netflix,🥅 Netflix
   - RULE-SET,disney,🐭 Disney
   - RULE-SET,hbo,👌 HBO
-  - RULE-SET,openai,🤖 AI
-  - RULE-SET,anthropic,🤖 AI
-  - RULE-SET,gemini,🤖 AI
   - RULE-SET,twitch,🧙🏿‍♀️ Twitch
+  - GEOSITE,category-porn,👧 Porn
   - RULE-SET,twitter,🐦 Twitter
   - RULE-SET,telegram,📲 Telegram
-  - RULE-SET,google,🦉 Google
   - RULE-SET,spotify,👂 Spotify
+  - RULE-SET,google,🦉 Google
   - RULE-SET,microsoft,🪟 Microsoft
   - RULE-SET,apple,🍎 Apple
   - RULE-SET,steam,🚂 Steam
-  - GEOSITE,bybit,🪙 Crypto
-  - RULE-SET,binance,🪙 Crypto
-  - RULE-SET,okx,🪙 Crypto
-  - GEOSITE,redotpay,🪙 Crypto
+  - RULE-SET,ipinfo,📈 IPinfo
+  - DOMAIN,check.torproject.org,📈 IPinfo
+  - GEOSITE,category-ip-geo-detect,📈 IPinfo
+  - GEOSITE,category-speedtest,📈 IPinfo
   - RULE-SET,wechat,🀄 Manchuria
   - RULE-SET,xhs,🀄 Manchuria
   - RULE-SET,douban,🀄 Manchuria
