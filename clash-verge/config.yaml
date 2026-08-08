@@ -547,13 +547,13 @@ rules:
   - RULE-SET,microsoft,🪟 Microsoft
   - RULE-SET,apple,🍎 Apple
   - RULE-SET,steam,🚂 Steam
+  - RULE-SET,wechat,🀄 Manchuria
+  - RULE-SET,xhs,🀄 Manchuria
+  - RULE-SET,douban,🀄 Manchuria
   - RULE-SET,ipinfo,📈 IPinfo
   - DOMAIN,check.torproject.org,📈 IPinfo
   - GEOSITE,category-ip-geo-detect,📈 IPinfo
   - GEOSITE,category-speedtest,📈 IPinfo
-  - RULE-SET,wechat,🀄 Manchuria
-  - RULE-SET,xhs,🀄 Manchuria
-  - RULE-SET,douban,🀄 Manchuria
   - GEOSITE,private,🌐 DIRECT
   - DOMAIN-SUFFIX,cn,🌐 DIRECT
   - DOMAIN-KEYWORD,-cn,🌐 DIRECT
