@@ -552,17 +552,18 @@ rules:
   - RULE-SET,xhs,🀄 Manchuria
   - RULE-SET,douban,🀄 Manchuria
   - GEOSITE,private,🌐 DIRECT
-  - RULE-SET,cn,🌐 DIRECT
   - DOMAIN-SUFFIX,cn,🌐 DIRECT
   - DOMAIN-KEYWORD,-cn,🌐 DIRECT
   - DOMAIN-KEYWORD,rustdesk,🌐 DIRECT
   - DOMAIN-KEYWORD,dell,🌐 DIRECT
   - DOMAIN-SUFFIX,right.com.cn,🌐 DIRECT
+  - RULE-SET,cn,🌐 DIRECT
+  - GEOSITE,cn,🌐 DIRECT
 
   - IP-CIDR,9.9.9.9/32,🌐 DIRECT,no-resolve
   - IP-CIDR,101.101.101.101/32,🌐 DIRECT,no-resolve
-  - GEOIP,PRIVATE,🌐 DIRECT,no-resolve
-  - GEOIP,CN,🌐 DIRECT,no-resolve
+  - GEOIP,private,🌐 DIRECT,no-resolve
+  - GEOIP,cn,🌐 DIRECT,no-resolve
 
   - PROCESS-PATH-REGEX,.*rustdesk,🌐 DIRECT
   - AND,((DOMAIN,hf.co),(DST-PORT,22)),🌐 DIRECT
