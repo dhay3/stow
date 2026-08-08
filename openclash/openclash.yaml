@@ -1,4 +1,14 @@
-general-options:
+# Do not use that configuration as an extend config or extend script when a profile has been
+# selected that the profile's subscription url is in the $.proxy-provider.url list. If so the proxy
+# nodes will be duplicated in proxies panel in Clash Verge Rev, Create a new local profile which
+# contains this configuration and selected it. Or add a blank local profile to avoid it
+#
+# meta https://wiki.metacubex.one/config/
+# emoji wiki https://emojis.wiki
+# ISO 3166 https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+
+#>>> Yaml Aliases Start >>>
+gneral-options:
   healthProviders:
     &healthProviders {
       url: https://www.gstatic.com/generate_204,
@@ -33,7 +43,7 @@ proxy-groups-options:
   proxyGroupsCommon:
     &proxyGroupsCommon { <<: *healthProxies, max-failed-times: 3 }
   proxyGroupsInclude:
-    &proxyGroupsInclude { <<: *proxyGroupsCommon, include-all: true }
+    &proxyGroupsInclude { include-all: true, <<: *proxyGroupsCommon }
   proxyGroupsUse:
     &proxyGroupsUse {
       use: [example1, example2, example3],
@@ -89,7 +99,9 @@ proxy-groups-options:
           🌏 C3,
         ],
     }
+#<<< Yaml Aliases End <<<
 
+#>>> Genernal Configuration Start >>>
 bind-address: "*"
 external-controller: 0.0.0.0:9000
 external-controller-tls: 0.0.0.0:9443
@@ -106,7 +118,9 @@ global-ua: clash.meta
 profile:
   store-selected: true
   store-fake-ip: false
+#<<< Genernal Configuration End <<<
 
+#>>> GEO Configuration Start >>>
 geodata-loader: standard
 geo-auto-update: true
 geo-update-interval: 24
@@ -114,7 +128,17 @@ geox-url:
   geoip: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
   geosite: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
   mmdb: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb
+#<<< GEO Configuration End <<<
 
+#>>> DNS Configuration Start >>>
+# DoH and DoT have been banned by GFW
+# 9.9.9.9 quad9
+# 101.101.101.101 quad101
+# 1.1.1.1 cloudflare
+# 223.5.5.5 alidns
+# 119.29.29.29 tencent
+# tls://9.9.9.9:853
+# https://101.101.101.101/dns-query#skip-cert-verify=true
 dns:
   enable: true
   prefer-h3: true
@@ -149,10 +173,14 @@ dns:
   fallback-filter:
     geoip: true
     geoip-code: CN
+#<<< DNS Configuration End <<<
 
+#>>> Hosts Configuration End >>>
 hosts:
   "localhost": 127.0.0.1
+#<<< Hosts Configuration End <<<
 
+#>>> Domain Sniffing Configuration Start >>>
 sniffer:
   enable: true
   sniff:
@@ -166,7 +194,9 @@ sniffer:
     - +.lan
     - +.local
     - +.localhost
+#<<< Domain Sniffing Configuration End <<<
 
+#>>> TUN/TAP Configuration Start >>>
 tun:
   enable: true
   stack: mixed
@@ -175,14 +205,34 @@ tun:
   auto-redirect: false
   auto-detect-interface: true
   strict-route: true
+  # set auto-redirect to false to enable it
+  # uncomment to bypass local DNS nameserver
   route-exclude-address:
+    # - 0.0.0.0/8
+    # - 10.0.0.0/8
+    # - 127.0.0.0/8
+    # - 169.254.0.0/16
+    # - 172.16.0.0/12
+    # - 192.0.0.0/24
+    # - 192.0.2.0/24
+    # - 192.88.99.0/24
+    # - 192.168.0.0/16
+    # - 198.18.0.0/15
+    # - 198.51.100.0/24
+    # - 203.0.113.0/24
+    # - 224.0.0.0/3
+    # bypass dns for troubleshooting when tun is enabled
     - 1.1.1.1/32
+    # bypass rustdesk
     - 209.250.254.15/32
     - 8.153.99.116/32
   dns-hijack:
     - any:53
   mtu: 1500
+#<<< TUN/TAP Configuration End <<<
 
+#>>> Proxy Providers Configuration Start >>>
+# Replace url with your subscription
 proxy-providers:
   example1:
     <<:
@@ -207,7 +257,10 @@ proxy-providers:
     interval: 3600
     url: https://example3.org
     path: ./proxy_providers/example3.yaml
+#<<< Proxy Providers Configuration End <<<
 
+#>>> Proxies Configuration Start >>>
+# TUN must be enabled when use the TOR proxy
 proxies:
   [
     {
@@ -219,7 +272,9 @@ proxies:
       ip-version: ipv4,
     },
   ]
+#<<< Proxies Configuration End <<<
 
+#>>> Proxy Groups(Policy) Configuration Start >>>
 proxy-groups:
   - { name: 🌐 DIRECT, type: select, proxies: [DIRECT] }
   - { name: 🚫 REJECT, type: select, proxies: [REJECT] }
@@ -349,37 +404,49 @@ proxy-groups:
 
   - { name: 🔊 ADS, type: select, proxies: [🌐 DIRECT, 🚫 REJECT, 🫴 MANUAL] }
   - { name: 🤖 AI, type: select, <<: *proxyGroupsCombined }
-  - { name: 🍎 Apple, type: select, <<: *proxyGroupsCombined }
-  - { name: 🦉 Google, type: select, <<: *proxyGroupsCombined }
+  - { name: 🪙 Crypto, type: select, <<: *proxyGroupsCombined }
   - { name: 🧪 YouTube, type: select, <<: *proxyGroupsCombined }
   - { name: 🥅 Netflix, type: select, <<: *proxyGroupsCombined }
   - { name: 🐭 Disney, type: select, <<: *proxyGroupsCombined }
   - { name: 👌 HBO, type: select, <<: *proxyGroupsCombined }
   - { name: 🧙🏿‍♀️ Twitch, type: select, <<: *proxyGroupsCombined }
+  - { name: 👧 Porn, type: select, <<: *proxyGroupsCombined }
   - { name: 🐦 Twitter, type: select, <<: *proxyGroupsCombined }
   - { name: 📲 Telegram, type: select, <<: *proxyGroupsCombined }
-  - { name: 🚂 Steam, type: select, <<: *proxyGroupsCombined }
-  - { name: 🪟 Microsoft, type: select, <<: *proxyGroupsCombined }
-  - { name: 📈 IPinfo, type: select, <<: *proxyGroupsCombined }
   - { name: 👂 Spotify, type: select, <<: *proxyGroupsCombined }
-  - { name: 🪙 Crypto, type: select, <<: *proxyGroupsCombined }
+  - { name: 🦉 Google, type: select, <<: *proxyGroupsCombined }
+  - { name: 🪟 Microsoft, type: select, <<: *proxyGroupsCombined }
+  - { name: 🍎 Apple, type: select, <<: *proxyGroupsCombined }
+  - { name: 🚂 Steam, type: select, <<: *proxyGroupsCombined }
+  - { name: 📈 IPinfo, type: select, <<: *proxyGroupsCombined }
   - { name: 🀄 Manchuria, type: select, <<: *proxyGroupsCombined }
   - { name: 🪜 Proxy, type: select, <<: *proxyGroupsCombined }
   - { name: 🐟 Leakage, type: select, <<: *proxyGroupsCombined }
+#<<< Proxy Groups(Policy) Configuration End <<<
 
+#>>> Rule Providers Configuration Start >>>
+# https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Clash
 rule-providers:
   ads:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Advertising/Advertising.yaml
     path: ./ruleset/ads.yaml
-  ipinfo:
+  openai:
     <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Speedtest/Speedtest.yaml
-    path: ./ruleset/ipinfo.yaml
-  google:
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI.yaml
+    path: ./ruleset/openai.yaml
+  anthropic:
     <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Google/Google.yaml
-    path: ./ruleset/google.yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Anthropic/Anthropic.yaml
+    path: ./ruleset/anthropic.yaml
+  gemini:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Gemini/Gemini.yaml
+    path: ./ruleset/gemini.yaml
+  crypto:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Crypto/Crypto.yaml
+    path: ./ruleset/crypto.yaml
   youtube:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/YouTube/YouTube.yaml
@@ -396,18 +463,6 @@ rule-providers:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/HBO/HBO.yaml
     path: ./ruleset/hbo.yaml
-  openai:
-    <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI.yaml
-    path: ./ruleset/openai.yaml
-  anthropic:
-    <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Anthropic/Anthropic.yaml
-    path: ./ruleset/anthropic.yaml
-  gemini:
-    <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Gemini/Gemini.yaml
-    path: ./ruleset/gemini.yaml
   twitch:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Twitch/Twitch.yaml
@@ -424,6 +479,10 @@ rule-providers:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Spotify/Spotify.yaml
     path: ./ruleset/spotify.yaml
+  google:
+    <<: *ruleProvidersCommon
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Google/Google.yaml
+    path: ./ruleset/google.yaml
   microsoft:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft.yaml
@@ -436,14 +495,10 @@ rule-providers:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Steam/Steam.yaml
     path: ./ruleset/steam.yaml
-  binance:
+  ipinfo:
     <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@release/rule/Clash/Binance/Binance.yaml
-    path: ./ruleset/binance.yaml
-  okx:
-    <<: *ruleProvidersCommon
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@release/rule/Clash/OKX/OKX.yaml
-    path: ./ruleset/okx.yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Speedtest/Speedtest.yaml
+    path: ./ruleset/ipinfo.yaml
   wechat:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/WeChat/WeChat.yaml
@@ -464,35 +519,35 @@ rule-providers:
     <<: *ruleProvidersCommon
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Proxy/Proxy.yaml
     path: ./ruleset/proxy.yaml
+#<<< Rule Providers Configuration End <<<
 
+#>>> Rules Configuration End >>>
 rules:
   - RULE-SET,ads,🔊 ADS
   - GEOSITE,category-ads-all,🔊 ADS
-  - RULE-SET,ipinfo,📈 IPinfo
-  - DOMAIN,check.torproject.org,📈 IPinfo
-  - DOMAIN-SUFFIX,ip.sb,📈 IPinfo
-  - DOMAIN-SUFFIX,myip.la,📈 IPinfo
-  - DOMAIN-SUFFIX,ipip.net,📈 IPinfo
-  - DOMAIN-SUFFIX,ipinfo.io,📈 IPinfo
+  - RULE-SET,openai,🤖 AI
+  - RULE-SET,anthropic,🤖 AI
+  - RULE-SET,gemini,🤖 AI
+  - GEOSITE,category-ai-!cn,🤖 AI
+  - RULE-SET,crypto,🪙 Crypto
+  - GEOSITE,category-cryptocurrency,🪙 Crypto
   - RULE-SET,youtube,🧪 YouTube
   - RULE-SET,netflix,🥅 Netflix
   - RULE-SET,disney,🐭 Disney
   - RULE-SET,hbo,👌 HBO
-  - RULE-SET,openai,🤖 AI
-  - RULE-SET,anthropic,🤖 AI
-  - RULE-SET,gemini,🤖 AI
   - RULE-SET,twitch,🧙🏿‍♀️ Twitch
+  - GEOSITE,category-porn,👧 Porn
   - RULE-SET,twitter,🐦 Twitter
   - RULE-SET,telegram,📲 Telegram
-  - RULE-SET,google,🦉 Google
   - RULE-SET,spotify,👂 Spotify
+  - RULE-SET,google,🦉 Google
   - RULE-SET,microsoft,🪟 Microsoft
   - RULE-SET,apple,🍎 Apple
   - RULE-SET,steam,🚂 Steam
-  - GEOSITE,bybit,🪙 Crypto
-  - RULE-SET,binance,🪙 Crypto
-  - RULE-SET,okx,🪙 Crypto
-  - GEOSITE,redotpay,🪙 Crypto
+  - RULE-SET,ipinfo,📈 IPinfo
+  - DOMAIN,check.torproject.org,📈 IPinfo
+  - GEOSITE,category-ip-geo-detect,📈 IPinfo
+  - GEOSITE,category-speedtest,📈 IPinfo
   - RULE-SET,wechat,🀄 Manchuria
   - RULE-SET,xhs,🀄 Manchuria
   - RULE-SET,douban,🀄 Manchuria
@@ -515,3 +570,4 @@ rules:
   - RULE-SET,proxy,🪜 Proxy
   - GEOSITE,geolocation-!cn,🪜 Proxy
   - MATCH,🐟 Leakage
+#<<< Rules Configuration End <<<
