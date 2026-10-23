@@ -149,12 +149,14 @@ dns:
   use-hosts: true
   use-system-hosts: true
   enhanced-mode: fake-ip
-  fake-ip-range: 100.64.0.1/10
+  # 100.64.0.0/10 confilct with tailscale
+  fake-ip-range: 198.18.0.1/16
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
     - geosite:private
     - geosite:cn
     - "+.tailscale.com"
+    - "+.rustdesk.com"
   default-nameserver:
     - 223.5.5.5
     - 9.9.9.9
