@@ -154,6 +154,7 @@ dns:
   fake-ip-filter:
     - geosite:private
     - geosite:cn
+    - "+.tailscale.com"
   default-nameserver:
     - 223.5.5.5
     - 9.9.9.9
@@ -551,6 +552,7 @@ rules:
   - RULE-SET,xhs,🀄 Manchuria
   - RULE-SET,douban,🀄 Manchuria
   - RULE-SET,ipinfo,📈 IPinfo
+  - DOMAIN,myip.la,📈 IPinfo
   - DOMAIN,check.torproject.org,📈 IPinfo
   - GEOSITE,category-ip-geo-detect,📈 IPinfo
   - GEOSITE,category-speedtest,📈 IPinfo
